@@ -1,15 +1,11 @@
 //
-//  ViewController.h
+//  TKSDataReformProtocol.h
 //  TextKitSample
 //
 //  Created by Vincent on 2017/4/20.
 //  Copyright © 2017年 Vincent. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface ViewController : UIViewController
-
-
-@end
+ /* TKSDataReformProtocol_h */
+#import <Foundation/Foundation.h>
 

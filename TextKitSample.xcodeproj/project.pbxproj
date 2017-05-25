@@ -7,25 +7,94 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		857154326B7BABB0F32DA105 /* libPods-TextKitSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 609ED99D109DDC44154A8BAE /* libPods-TextKitSample.a */; };
 		BF3E51F91EA867640009B4CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E51F81EA867640009B4CB /* main.m */; };
 		BF3E51FC1EA867640009B4CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E51FB1EA867640009B4CB /* AppDelegate.m */; };
-		BF3E51FF1EA867640009B4CB /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E51FE1EA867640009B4CB /* ViewController.m */; };
-		BF3E52021EA867640009B4CB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF3E52001EA867640009B4CB /* Main.storyboard */; };
+		BF3E51FF1EA867640009B4CB /* TKSArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E51FE1EA867640009B4CB /* TKSArticleListViewController.m */; };
 		BF3E52041EA867640009B4CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF3E52031EA867640009B4CB /* Assets.xcassets */; };
 		BF3E52071EA867640009B4CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF3E52051EA867640009B4CB /* LaunchScreen.storyboard */; };
+		BF5D4A111EC306C70093665F /* UIFont+TKSFontDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5D4A101EC306C70093665F /* UIFont+TKSFontDefine.m */; };
+		BF5D4A141EC33C910093665F /* TKSTextParagraphAttributeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5D4A131EC33C910093665F /* TKSTextParagraphAttributeManager.m */; };
+		BF9CDC131EC5BB8A00FF400D /* TKSArticleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */; };
+		BF9D7E8E1EC079AD00D99E14 /* TKSBaseArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */; };
+		BFAD92211EAF4EBB0045AFDA /* TKSTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAD92201EAF4EBB0045AFDA /* TKSTextStorage.m */; };
+		BFB832A31EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB832A21EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m */; };
+		BFB832A51EC1C4C700BE40A6 /* AKTA.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFB832A41EC1C4C700BE40A6 /* AKTA.plist */; };
+		BFB832A81EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB832A71EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m */; };
+		BFB832AB1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB832AA1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m */; };
+		BFBD846A1EA9B8D700870792 /* TKSNetworkingRequestPathManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBD84691EA9B8D700870792 /* TKSNetworkingRequestPathManager.m */; };
+		BFBD846E1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */; };
+		BFD858B91ED6DDFA00F18A23 /* htmlSampleText.html in Resources */ = {isa = PBXBuildFile; fileRef = BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */; };
+		BFFDF3F71EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF3F61EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m */; };
+		BFFDF3FB1EB76FC400B1A92F /* TKSBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF3FA1EB76FC400B1A92F /* TKSBaseRequestModel.m */; };
+		BFFDF3FE1EB7843600B1A92F /* TKSAPIResponseHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF3FD1EB7843600B1A92F /* TKSAPIResponseHandler.m */; };
+		BFFDF4011EB88C2E00B1A92F /* TKSAPIRequestGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF4001EB88C2E00B1A92F /* TKSAPIRequestGenerator.m */; };
+		BFFDF4041EB88DEF00B1A92F /* TKSCommonParamsGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF4031EB88DEF00B1A92F /* TKSCommonParamsGenerator.m */; };
+		BFFDF4071EB88E6400B1A92F /* TKSAppContextGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF4061EB88E6400B1A92F /* TKSAppContextGenerator.m */; };
+		BFFDF40B1EB8AFE700B1A92F /* TKSBaseRequestEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF40A1EB8AFE700B1A92F /* TKSBaseRequestEngine.m */; };
+		BFFDF40E1EB8C41400B1A92F /* TKSBaseNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF40D1EB8C41400B1A92F /* TKSBaseNetworkViewController.m */; };
+		BFFDF4111EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF4101EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m */; };
+		BFFDF4141EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF4131EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		48DB314E9A574251127A3D23 /* Pods-TextKitSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextKitSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TextKitSample/Pods-TextKitSample.debug.xcconfig"; sourceTree = "<group>"; };
+		4AB507769DA6F123880427B1 /* Pods-TextKitSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextKitSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-TextKitSample/Pods-TextKitSample.release.xcconfig"; sourceTree = "<group>"; };
+		609ED99D109DDC44154A8BAE /* libPods-TextKitSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TextKitSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3E51F41EA867640009B4CB /* TextKitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextKitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3E51F81EA867640009B4CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BF3E51FA1EA867640009B4CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BF3E51FB1EA867640009B4CB /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		BF3E51FD1EA867640009B4CB /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		BF3E51FE1EA867640009B4CB /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		BF3E52011EA867640009B4CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BF3E51FD1EA867640009B4CB /* TKSArticleListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TKSArticleListViewController.h; sourceTree = "<group>"; };
+		BF3E51FE1EA867640009B4CB /* TKSArticleListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TKSArticleListViewController.m; sourceTree = "<group>"; };
 		BF3E52031EA867640009B4CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BF3E52061EA867640009B4CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BF3E52081EA867640009B4CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF5D4A0F1EC306C70093665F /* UIFont+TKSFontDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+TKSFontDefine.h"; sourceTree = "<group>"; };
+		BF5D4A101EC306C70093665F /* UIFont+TKSFontDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+TKSFontDefine.m"; sourceTree = "<group>"; };
+		BF5D4A121EC33C910093665F /* TKSTextParagraphAttributeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSTextParagraphAttributeManager.h; sourceTree = "<group>"; };
+		BF5D4A131EC33C910093665F /* TKSTextParagraphAttributeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSTextParagraphAttributeManager.m; sourceTree = "<group>"; };
+		BF9CDC111EC5BB8A00FF400D /* TKSArticleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleDetailViewController.h; sourceTree = "<group>"; };
+		BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleDetailViewController.m; sourceTree = "<group>"; };
+		BF9D7E8C1EC079AD00D99E14 /* TKSBaseArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseArrayDataSource.h; sourceTree = "<group>"; };
+		BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseArrayDataSource.m; sourceTree = "<group>"; };
+		BFAD921F1EAF4EBB0045AFDA /* TKSTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSTextStorage.h; sourceTree = "<group>"; };
+		BFAD92201EAF4EBB0045AFDA /* TKSTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSTextStorage.m; sourceTree = "<group>"; };
+		BFB832A11EC1AF6600BE40A6 /* TKSArticleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleListTableViewCell.h; sourceTree = "<group>"; };
+		BFB832A21EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleListTableViewCell.m; sourceTree = "<group>"; };
+		BFB832A41EC1C4C700BE40A6 /* AKTA.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AKTA.plist; sourceTree = "<group>"; };
+		BFB832A61EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseArrayWithLoadMoreItemDataSource.h; sourceTree = "<group>"; };
+		BFB832A71EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseArrayWithLoadMoreItemDataSource.m; sourceTree = "<group>"; };
+		BFB832A91EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseLoadMoreTableViewCell.h; sourceTree = "<group>"; };
+		BFB832AA1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseLoadMoreTableViewCell.m; sourceTree = "<group>"; };
+		BFBD84651EA8CA9B00870792 /* TKSDataReformProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSDataReformProtocol.h; sourceTree = "<group>"; };
+		BFBD84661EA8E8D700870792 /* CommonMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonMarco.h; sourceTree = "<group>"; };
+		BFBD84671EA8E95C00870792 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		BFBD84681EA9B8D700870792 /* TKSNetworkingRequestPathManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSNetworkingRequestPathManager.h; sourceTree = "<group>"; };
+		BFBD84691EA9B8D700870792 /* TKSNetworkingRequestPathManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingRequestPathManager.m; sourceTree = "<group>"; };
+		BFBD846C1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TKSNetworkingRequestPathManager+PathUniformTool.h"; sourceTree = "<group>"; };
+		BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TKSNetworkingRequestPathManager+PathUniformTool.m"; sourceTree = "<group>"; };
+		BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = htmlSampleText.html; sourceTree = "<group>"; };
+		BFFDF3F51EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSNetworkingAPIRequestManager.h; sourceTree = "<group>"; };
+		BFFDF3F61EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingAPIRequestManager.m; sourceTree = "<group>"; };
+		BFFDF3F91EB76FC400B1A92F /* TKSBaseRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseRequestModel.h; sourceTree = "<group>"; };
+		BFFDF3FA1EB76FC400B1A92F /* TKSBaseRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseRequestModel.m; sourceTree = "<group>"; };
+		BFFDF3FC1EB7843600B1A92F /* TKSAPIResponseHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSAPIResponseHandler.h; sourceTree = "<group>"; };
+		BFFDF3FD1EB7843600B1A92F /* TKSAPIResponseHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSAPIResponseHandler.m; sourceTree = "<group>"; };
+		BFFDF3FF1EB88C2E00B1A92F /* TKSAPIRequestGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSAPIRequestGenerator.h; sourceTree = "<group>"; };
+		BFFDF4001EB88C2E00B1A92F /* TKSAPIRequestGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSAPIRequestGenerator.m; sourceTree = "<group>"; };
+		BFFDF4021EB88DEF00B1A92F /* TKSCommonParamsGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSCommonParamsGenerator.h; sourceTree = "<group>"; };
+		BFFDF4031EB88DEF00B1A92F /* TKSCommonParamsGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSCommonParamsGenerator.m; sourceTree = "<group>"; };
+		BFFDF4051EB88E6400B1A92F /* TKSAppContextGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSAppContextGenerator.h; sourceTree = "<group>"; };
+		BFFDF4061EB88E6400B1A92F /* TKSAppContextGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSAppContextGenerator.m; sourceTree = "<group>"; };
+		BFFDF4091EB8AFE700B1A92F /* TKSBaseRequestEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseRequestEngine.h; sourceTree = "<group>"; };
+		BFFDF40A1EB8AFE700B1A92F /* TKSBaseRequestEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseRequestEngine.m; sourceTree = "<group>"; };
+		BFFDF40C1EB8C41400B1A92F /* TKSBaseNetworkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseNetworkViewController.h; sourceTree = "<group>"; };
+		BFFDF40D1EB8C41400B1A92F /* TKSBaseNetworkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseNetworkViewController.m; sourceTree = "<group>"; };
+		BFFDF40F1EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSNetworkingAutoCancelRequests.h; sourceTree = "<group>"; };
+		BFFDF4101EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingAutoCancelRequests.m; sourceTree = "<group>"; };
+		BFFDF4121EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TKSNetworkingAutoCancelRequests.h"; sourceTree = "<group>"; };
+		BFFDF4131EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TKSNetworkingAutoCancelRequests.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +102,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				857154326B7BABB0F32DA105 /* libPods-TextKitSample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C6632E128DD137FDD5B1475 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				48DB314E9A574251127A3D23 /* Pods-TextKitSample.debug.xcconfig */,
+				4AB507769DA6F123880427B1 /* Pods-TextKitSample.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		46EB328B5A58E3C6D8B631C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				609ED99D109DDC44154A8BAE /* libPods-TextKitSample.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BF3E51EB1EA867640009B4CB = {
 			isa = PBXGroup;
 			children = (
 				BF3E51F61EA867640009B4CB /* TextKitSample */,
 				BF3E51F51EA867640009B4CB /* Products */,
+				0C6632E128DD137FDD5B1475 /* Pods */,
+				46EB328B5A58E3C6D8B631C7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,11 +147,25 @@
 		BF3E51F61EA867640009B4CB /* TextKitSample */ = {
 			isa = PBXGroup;
 			children = (
+				BFFDF4081EB8AFB100B1A92F /* Network */,
+				BFFDF3F81EB76F9D00B1A92F /* Model */,
+				BFBD846B1EAE4A4C00870792 /* Category */,
+				BF62CF571EA87A2C0070BA82 /* Tools */,
 				BF3E51FA1EA867640009B4CB /* AppDelegate.h */,
 				BF3E51FB1EA867640009B4CB /* AppDelegate.m */,
-				BF3E51FD1EA867640009B4CB /* ViewController.h */,
-				BF3E51FE1EA867640009B4CB /* ViewController.m */,
-				BF3E52001EA867640009B4CB /* Main.storyboard */,
+				BF9D7E8C1EC079AD00D99E14 /* TKSBaseArrayDataSource.h */,
+				BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */,
+				BFB832A91EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.h */,
+				BFB832AA1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m */,
+				BFB832A61EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.h */,
+				BFB832A71EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m */,
+				BF9CDC101EC5BB6900FF400D /* ArticleDetailGroup */,
+				BFB832A01EC1AEF000BE40A6 /* ArticleListGroup */,
+				BFAD92221EB1C6790045AFDA /* ArticleDetailLayoutManager */,
+				BFAD921F1EAF4EBB0045AFDA /* TKSTextStorage.h */,
+				BFAD92201EAF4EBB0045AFDA /* TKSTextStorage.m */,
+				BFBD84661EA8E8D700870792 /* CommonMarco.h */,
+				BFBD84671EA8E95C00870792 /* PrefixHeader.pch */,
 				BF3E52031EA867640009B4CB /* Assets.xcassets */,
 				BF3E52051EA867640009B4CB /* LaunchScreen.storyboard */,
 				BF3E52081EA867640009B4CB /* Info.plist */,
@@ -79,6 +182,92 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		BF62CF571EA87A2C0070BA82 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				BFBD84651EA8CA9B00870792 /* TKSDataReformProtocol.h */,
+				BF5D4A121EC33C910093665F /* TKSTextParagraphAttributeManager.h */,
+				BF5D4A131EC33C910093665F /* TKSTextParagraphAttributeManager.m */,
+			);
+			name = Tools;
+			sourceTree = "<group>";
+		};
+		BF9CDC101EC5BB6900FF400D /* ArticleDetailGroup */ = {
+			isa = PBXGroup;
+			children = (
+				BF9CDC111EC5BB8A00FF400D /* TKSArticleDetailViewController.h */,
+				BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */,
+				BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */,
+			);
+			name = ArticleDetailGroup;
+			sourceTree = "<group>";
+		};
+		BFAD92221EB1C6790045AFDA /* ArticleDetailLayoutManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ArticleDetailLayoutManager;
+			sourceTree = "<group>";
+		};
+		BFB832A01EC1AEF000BE40A6 /* ArticleListGroup */ = {
+			isa = PBXGroup;
+			children = (
+				BF3E51FD1EA867640009B4CB /* TKSArticleListViewController.h */,
+				BF3E51FE1EA867640009B4CB /* TKSArticleListViewController.m */,
+				BFB832A11EC1AF6600BE40A6 /* TKSArticleListTableViewCell.h */,
+				BFB832A21EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m */,
+				BFB832A41EC1C4C700BE40A6 /* AKTA.plist */,
+			);
+			name = ArticleListGroup;
+			sourceTree = "<group>";
+		};
+		BFBD846B1EAE4A4C00870792 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				BFBD846C1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.h */,
+				BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */,
+				BF5D4A0F1EC306C70093665F /* UIFont+TKSFontDefine.h */,
+				BF5D4A101EC306C70093665F /* UIFont+TKSFontDefine.m */,
+				BFFDF4121EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.h */,
+				BFFDF4131EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
+		BFFDF3F81EB76F9D00B1A92F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BFFDF3F91EB76FC400B1A92F /* TKSBaseRequestModel.h */,
+				BFFDF3FA1EB76FC400B1A92F /* TKSBaseRequestModel.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		BFFDF4081EB8AFB100B1A92F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BFBD84681EA9B8D700870792 /* TKSNetworkingRequestPathManager.h */,
+				BFBD84691EA9B8D700870792 /* TKSNetworkingRequestPathManager.m */,
+				BFFDF3F51EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.h */,
+				BFFDF3F61EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m */,
+				BFFDF3FC1EB7843600B1A92F /* TKSAPIResponseHandler.h */,
+				BFFDF3FD1EB7843600B1A92F /* TKSAPIResponseHandler.m */,
+				BFFDF3FF1EB88C2E00B1A92F /* TKSAPIRequestGenerator.h */,
+				BFFDF4001EB88C2E00B1A92F /* TKSAPIRequestGenerator.m */,
+				BFFDF4021EB88DEF00B1A92F /* TKSCommonParamsGenerator.h */,
+				BFFDF4031EB88DEF00B1A92F /* TKSCommonParamsGenerator.m */,
+				BFFDF4051EB88E6400B1A92F /* TKSAppContextGenerator.h */,
+				BFFDF4061EB88E6400B1A92F /* TKSAppContextGenerator.m */,
+				BFFDF4091EB8AFE700B1A92F /* TKSBaseRequestEngine.h */,
+				BFFDF40A1EB8AFE700B1A92F /* TKSBaseRequestEngine.m */,
+				BFFDF40C1EB8C41400B1A92F /* TKSBaseNetworkViewController.h */,
+				BFFDF40D1EB8C41400B1A92F /* TKSBaseNetworkViewController.m */,
+				BFFDF40F1EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.h */,
+				BFFDF4101EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m */,
+			);
+			name = Network;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -86,9 +275,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BF3E520B1EA867640009B4CB /* Build configuration list for PBXNativeTarget "TextKitSample" */;
 			buildPhases = (
+				B9150ABDA732867972AF6A9B /* [CP] Check Pods Manifest.lock */,
 				BF3E51F01EA867640009B4CB /* Sources */,
 				BF3E51F11EA867640009B4CB /* Frameworks */,
 				BF3E51F21EA867640009B4CB /* Resources */,
+				0DBE0FB5EBD142BB706E5636 /* [CP] Embed Pods Frameworks */,
+				07FF9B588AC1A3647F0AA555 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -138,36 +330,97 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFB832A51EC1C4C700BE40A6 /* AKTA.plist in Resources */,
 				BF3E52071EA867640009B4CB /* LaunchScreen.storyboard in Resources */,
+				BFD858B91ED6DDFA00F18A23 /* htmlSampleText.html in Resources */,
 				BF3E52041EA867640009B4CB /* Assets.xcassets in Resources */,
-				BF3E52021EA867640009B4CB /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		07FF9B588AC1A3647F0AA555 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TextKitSample/Pods-TextKitSample-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0DBE0FB5EBD142BB706E5636 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TextKitSample/Pods-TextKitSample-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9150ABDA732867972AF6A9B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BF3E51F01EA867640009B4CB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF3E51FF1EA867640009B4CB /* ViewController.m in Sources */,
+				BFAD92211EAF4EBB0045AFDA /* TKSTextStorage.m in Sources */,
+				BF3E51FF1EA867640009B4CB /* TKSArticleListViewController.m in Sources */,
+				BFFDF4011EB88C2E00B1A92F /* TKSAPIRequestGenerator.m in Sources */,
+				BFFDF4111EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m in Sources */,
+				BFFDF4071EB88E6400B1A92F /* TKSAppContextGenerator.m in Sources */,
+				BFB832A81EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m in Sources */,
+				BFFDF40B1EB8AFE700B1A92F /* TKSBaseRequestEngine.m in Sources */,
+				BF9CDC131EC5BB8A00FF400D /* TKSArticleDetailViewController.m in Sources */,
+				BFFDF4041EB88DEF00B1A92F /* TKSCommonParamsGenerator.m in Sources */,
+				BFBD846A1EA9B8D700870792 /* TKSNetworkingRequestPathManager.m in Sources */,
 				BF3E51FC1EA867640009B4CB /* AppDelegate.m in Sources */,
 				BF3E51F91EA867640009B4CB /* main.m in Sources */,
+				BFBD846E1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m in Sources */,
+				BF5D4A111EC306C70093665F /* UIFont+TKSFontDefine.m in Sources */,
+				BFB832AB1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m in Sources */,
+				BFFDF3FE1EB7843600B1A92F /* TKSAPIResponseHandler.m in Sources */,
+				BF5D4A141EC33C910093665F /* TKSTextParagraphAttributeManager.m in Sources */,
+				BFFDF3FB1EB76FC400B1A92F /* TKSBaseRequestModel.m in Sources */,
+				BF9D7E8E1EC079AD00D99E14 /* TKSBaseArrayDataSource.m in Sources */,
+				BFFDF4141EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m in Sources */,
+				BFB832A31EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m in Sources */,
+				BFFDF40E1EB8C41400B1A92F /* TKSBaseNetworkViewController.m in Sources */,
+				BFFDF3F71EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BF3E52001EA867640009B4CB /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BF3E52011EA867640009B4CB /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		BF3E52051EA867640009B4CB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -210,6 +463,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = TextKitSample/PrefixHeader.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -256,6 +510,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = TextKitSample/PrefixHeader.pch;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -271,11 +526,13 @@
 		};
 		BF3E520C1EA867640009B4CB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48DB314E9A574251127A3D23 /* Pods-TextKitSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 56E8U8885M;
 				INFOPLIST_FILE = TextKitSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = VincentJiang.TextKitSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -283,11 +540,13 @@
 		};
 		BF3E520D1EA867640009B4CB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AB507769DA6F123880427B1 /* Pods-TextKitSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = 56E8U8885M;
 				INFOPLIST_FILE = TextKitSample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = VincentJiang.TextKitSample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -312,6 +571,7 @@
 				BF3E520D1EA867640009B4CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
