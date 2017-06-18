@@ -12,8 +12,15 @@
 +(UIFont *)articleTitleFontOfSize:(CGFloat)fontSize;
 +(UIFont *)articleSubtitleFontOfSize:(CGFloat)fontSize;
 +(UIFont *)articleTextFontOfSize:(CGFloat)fontSize;
++(UIFont *)articleDiscussPointQuoteTextOfSize:(CGFloat)fontSize;
++(UIFont *)articleDiscussPointResponseTextOfSize:(CGFloat)fontSize;
+
 
 +(UIFont *)articleListTitleFont;
 +(UIFont *)articleListSubtitleFont;
 +(UIFont *)articleListBriefFont;
++(UIFont *)articleDiscussPointQuoteTextFont;
++(UIFont *)articleDiscussPointResponseTextFont;
++(UIFont *)articleDiscussPointQuotePositionLabelFont;
+
 @end

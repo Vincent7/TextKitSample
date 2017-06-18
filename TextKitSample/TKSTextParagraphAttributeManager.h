@@ -11,4 +11,8 @@
 @interface TKSTextParagraphAttributeManager : NSObject
 + (NSDictionary *)articleListTitleTextAttributeInfo;
 + (NSDictionary *)articleListSubtitleTextAttributeInfo;
+
++ (NSDictionary *)articleDiscussPointResponseTextAttributeInfo;
++ (NSDictionary *)articleDiscussPointQuoteTextAttributeInfo;
++ (NSDictionary *)articleDiscussPointQuotePositionLabelTextAttributeInfo;
 @end

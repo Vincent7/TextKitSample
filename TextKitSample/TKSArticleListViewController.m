@@ -15,7 +15,7 @@
 #import "TKSBaseArrayWithLoadMoreItemDataSource.h"
 #import "TKSArticleListTableViewCell.h"
 #import "TKSArticleDetailViewController.h"
-
+#import "TKSArticleResponseListAndDetailViewController.h"
 @interface TKSArticleListViewController () <TKSBaseRequestEngineDelegate,UITableViewDelegate>
 
 //@property (nonatomic, strong) NSTextContainer *container;
@@ -112,10 +112,10 @@
 }
 #pragma mark - tableview Delegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    TKSArticleDetailViewController *vc = [TKSArticleDetailViewController new];
+    TKSArticleResponseListAndDetailViewController *vc = [TKSArticleResponseListAndDetailViewController new];
     NSDictionary *item = [self.articleListDataSource itemAtIndexPath:indexPath];
-    NSString *htmlContent = [item objectForKey:@"articleHtmlContent"];
-    vc.htmlContentString = htmlContent;
+    NSString *articleId = [item objectForKey:@"id"];
+    vc.articleId = articleId;
     
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -135,7 +135,7 @@
         
         [_articleListTableView registerClass:[TKSArticleListTableViewCell class] forCellReuseIdentifier:NSStringFromClass([TKSArticleListTableViewCell class])];
         [_articleListTableView registerClass:[TKSBaseLoadMoreTableViewCell class] forCellReuseIdentifier:NSStringFromClass([TKSBaseLoadMoreTableViewCell class])];
-        _articleListTableView.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"bg_pattern"]];
+        _articleListTableView.backgroundColor = rgb(247, 247, 247);
     }
     return _articleListTableView;
 }
@@ -154,21 +154,26 @@
         
         _articleListDataSource = [[TKSBaseArrayWithLoadMoreItemDataSource alloc]initWithArray:[self sampleArray] cellReuseIdentifier:NSStringFromClass([TKSArticleListTableViewCell class]) configureCellBlock:^(id cell, id item) {
             TKSArticleListTableViewCell *articleCell = (TKSArticleListTableViewCell*)cell;
-            
+//            NSString *articleId = @"";
             NSString *title = @"";
+            NSArray *arrSubtitle;
+            NSArray *arrPreviewImageUrls;
+//            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"id"] isEqual:[NSNull null]] &&[item objectForKey:@"id"]) {
+//                articleId = [item objectForKey:@"id"];
+//            }
+            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"article_preview_subtitles"] isEqual:[NSNull null]] &&[item objectForKey:@"article_preview_subtitles"]) {
+                arrSubtitle = [item objectForKey:@"article_preview_subtitles"];
+            }
+            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"article_title"] isEqual:[NSNull null]] && [item objectForKey:@"article_title"]) {
+                title = [item objectForKey:@"article_title"];
+            }
+            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"article_preview_images"] isEqual:[NSNull null]] &&[item objectForKey:@"article_preview_images"]) {
+                arrPreviewImageUrls = [item objectForKey:@"article_preview_images"];
+            }
             NSString *subtitle = @"";
-            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"articleSubtitle"] isEqual:[NSNull null]] &&[item objectForKey:@"articleSubtitle"]) {
-                subtitle = [item objectForKey:@"articleSubtitle"];
+            for (NSDictionary *textInfo in arrSubtitle) {
+                subtitle = [subtitle stringByAppendingString:[textInfo objectForKey:@"text"]];
             }
-            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"articleTitle"] isEqual:[NSNull null]] && [item objectForKey:@"articleTitle"]) {
-                if (![subtitle isEqualToString:@""]) {
-                    title = [NSString stringWithFormat:@"%@(Subtitle)",[item objectForKey:@"articleTitle"]];
-                }else{
-                    title = [item objectForKey:@"articleTitle"];
-                }
-                
-            }
-            
             [articleCell setArticleTitleText:title];
             [articleCell setArticleSubtitleText:subtitle];
 //            [articleCell.lblArticleTitle setText:[NSString stringWithFormat:@"%ld",[item integerValue]]];

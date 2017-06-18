@@ -53,7 +53,7 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.1.0)
   - CBStoreHouseRefreshControl
-  - DTCoreText (from `https://github.com/Vincent7/DTCoreText.git`)
+  - DTCoreText (from `/Users/Vincent/Code/DTCoreText`)
   - JPFPSStatus (~> 0.1)
   - Masonry
   - MBProgressHUD (~> 0.9.1)
@@ -65,12 +65,7 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   DTCoreText:
-    :git: https://github.com/Vincent7/DTCoreText.git
-
-CHECKOUT OPTIONS:
-  DTCoreText:
-    :commit: 8e42c19b2e84c0259b8b5138128debb8723b7178
-    :git: https://github.com/Vincent7/DTCoreText.git
+    :path: /Users/Vincent/Code/DTCoreText
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -87,6 +82,6 @@ SPEC CHECKSUMS:
   YYText: 5c461d709e24d55a182d1441c41dc639a18a4849
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: 4613f658f7a1631ac7a9b98d1a2abd8533bfa4b7
+PODFILE CHECKSUM: 38ebeea1ce30fc67e7d218167790f9fb39dbed84
 
 COCOAPODS: 1.1.1

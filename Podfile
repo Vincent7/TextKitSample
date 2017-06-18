@@ -11,5 +11,7 @@ target 'TextKitSample' do
     pod 'YYText'
     pod 'CBStoreHouseRefreshControl'
     pod 'JPFPSStatus', '~> 0.1'
-    pod 'DTCoreText' , :git=> "https://github.com/Vincent7/DTCoreText.git"
+#    pod 'DTCoreText'
+#     pod 'DTCoreText' , :git=> "https://github.com/Vincent7/DTCoreText.git"
+    pod 'DTCoreText' , :path => '/Users/Vincent/Code/DTCoreText'
 end

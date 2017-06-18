@@ -10,16 +10,33 @@
 
 @implementation UIFont(TKSFontDefine)
 +(UIFont *)articleTitleFontOfSize:(CGFloat)fontSize{
-    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightSemibold];
+    return [UIFont fontWithName:@"Raleway-Bold" size:fontSize];
+//    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightSemibold];
 }
 
 +(UIFont *)articleSubtitleFontOfSize:(CGFloat)fontSize{
-    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightRegular];
+    return [UIFont fontWithName:@"Raleway-Regular" size:fontSize];
+//    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightRegular];
 }
 
 +(UIFont *)articleTextFontOfSize:(CGFloat)fontSize{
-    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
+    return [UIFont fontWithName:@"Raleway-Light" size:fontSize];
+//    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
 }
+
++(UIFont *)articleDiscussPointQuoteTextOfSize:(CGFloat)fontSize{
+    return [UIFont fontWithName:@"Raleway-Regular" size:fontSize];
+//    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
+}
++(UIFont *)articleDiscussPointResponseTextOfSize:(CGFloat)fontSize{
+    return [UIFont fontWithName:@"Raleway-Medium" size:fontSize];
+    //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
+}
++(UIFont *)articleDiscussPointQuotePositionLabelTextOfSize:(CGFloat)fontSize{
+    return [UIFont fontWithName:@"Raleway-Medium" size:fontSize];
+    //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
+}
+
 +(UIFont *)articleListTitleFont{
     return [UIFont articleTitleFontOfSize:24];
 }
@@ -29,4 +46,17 @@
 +(UIFont *)articleListBriefFont{
     return [UIFont articleTextFontOfSize:16];
 }
+
++(UIFont *)articleDiscussPointQuoteTextFont{
+    return [UIFont articleDiscussPointQuoteTextOfSize:16];
+}
+
++(UIFont *)articleDiscussPointResponseTextFont{
+    return [UIFont articleDiscussPointResponseTextOfSize:18];
+}
+
++(UIFont *)articleDiscussPointQuotePositionLabelFont{
+    return [UIFont articleDiscussPointResponseTextOfSize:18];
+}
+
 @end

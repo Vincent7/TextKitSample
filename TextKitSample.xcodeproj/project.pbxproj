@@ -15,15 +15,36 @@
 		BF3E52071EA867640009B4CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF3E52051EA867640009B4CB /* LaunchScreen.storyboard */; };
 		BF5D4A111EC306C70093665F /* UIFont+TKSFontDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5D4A101EC306C70093665F /* UIFont+TKSFontDefine.m */; };
 		BF5D4A141EC33C910093665F /* TKSTextParagraphAttributeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5D4A131EC33C910093665F /* TKSTextParagraphAttributeManager.m */; };
+		BF65815E1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF65815D1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m */; };
 		BF9CDC131EC5BB8A00FF400D /* TKSArticleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */; };
 		BF9D7E8E1EC079AD00D99E14 /* TKSBaseArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */; };
+		BFA01E2B1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA01E2A1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m */; };
 		BFAD92211EAF4EBB0045AFDA /* TKSTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAD92201EAF4EBB0045AFDA /* TKSTextStorage.m */; };
 		BFB832A31EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB832A21EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m */; };
 		BFB832A51EC1C4C700BE40A6 /* AKTA.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFB832A41EC1C4C700BE40A6 /* AKTA.plist */; };
 		BFB832A81EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB832A71EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m */; };
 		BFB832AB1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB832AA1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m */; };
+		BFBC83551EE7F56E001D760D /* Raleway-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83431EE7F56D001D760D /* Raleway-Black.ttf */; };
+		BFBC83561EE7F56E001D760D /* Raleway-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83441EE7F56D001D760D /* Raleway-BlackItalic.ttf */; };
+		BFBC83571EE7F56E001D760D /* Raleway-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83451EE7F56D001D760D /* Raleway-Bold.ttf */; };
+		BFBC83581EE7F56E001D760D /* Raleway-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83461EE7F56D001D760D /* Raleway-BoldItalic.ttf */; };
+		BFBC83591EE7F56E001D760D /* Raleway-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83471EE7F56D001D760D /* Raleway-ExtraBold.ttf */; };
+		BFBC835A1EE7F56E001D760D /* Raleway-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83481EE7F56D001D760D /* Raleway-ExtraBoldItalic.ttf */; };
+		BFBC835B1EE7F56E001D760D /* Raleway-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83491EE7F56D001D760D /* Raleway-ExtraLight.ttf */; };
+		BFBC835C1EE7F56E001D760D /* Raleway-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC834A1EE7F56D001D760D /* Raleway-ExtraLightItalic.ttf */; };
+		BFBC835D1EE7F56E001D760D /* Raleway-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC834B1EE7F56D001D760D /* Raleway-Italic.ttf */; };
+		BFBC835E1EE7F56E001D760D /* Raleway-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC834C1EE7F56D001D760D /* Raleway-Light.ttf */; };
+		BFBC835F1EE7F56E001D760D /* Raleway-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC834D1EE7F56D001D760D /* Raleway-LightItalic.ttf */; };
+		BFBC83601EE7F56E001D760D /* Raleway-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC834E1EE7F56D001D760D /* Raleway-Medium.ttf */; };
+		BFBC83611EE7F56E001D760D /* Raleway-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC834F1EE7F56D001D760D /* Raleway-MediumItalic.ttf */; };
+		BFBC83621EE7F56E001D760D /* Raleway-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83501EE7F56D001D760D /* Raleway-Regular.ttf */; };
+		BFBC83631EE7F56E001D760D /* Raleway-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83511EE7F56D001D760D /* Raleway-SemiBold.ttf */; };
+		BFBC83641EE7F56E001D760D /* Raleway-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83521EE7F56D001D760D /* Raleway-SemiBoldItalic.ttf */; };
+		BFBC83651EE7F56E001D760D /* Raleway-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83531EE7F56D001D760D /* Raleway-Thin.ttf */; };
+		BFBC83661EE7F56E001D760D /* Raleway-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83541EE7F56E001D760D /* Raleway-ThinItalic.ttf */; };
 		BFBD846A1EA9B8D700870792 /* TKSNetworkingRequestPathManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBD84691EA9B8D700870792 /* TKSNetworkingRequestPathManager.m */; };
 		BFBD846E1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */; };
+		BFD662F71EEA90DC009AE10C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD662F61EEA90DC009AE10C /* AVKit.framework */; };
 		BFD858B91ED6DDFA00F18A23 /* htmlSampleText.html in Resources */ = {isa = PBXBuildFile; fileRef = BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */; };
 		BFFDF3F71EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF3F61EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m */; };
 		BFFDF3FB1EB76FC400B1A92F /* TKSBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF3FA1EB76FC400B1A92F /* TKSBaseRequestModel.m */; };
@@ -54,10 +75,14 @@
 		BF5D4A101EC306C70093665F /* UIFont+TKSFontDefine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+TKSFontDefine.m"; sourceTree = "<group>"; };
 		BF5D4A121EC33C910093665F /* TKSTextParagraphAttributeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSTextParagraphAttributeManager.h; sourceTree = "<group>"; };
 		BF5D4A131EC33C910093665F /* TKSTextParagraphAttributeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSTextParagraphAttributeManager.m; sourceTree = "<group>"; };
+		BF65815C1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleResponseTableViewCell.h; sourceTree = "<group>"; };
+		BF65815D1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleResponseTableViewCell.m; sourceTree = "<group>"; };
 		BF9CDC111EC5BB8A00FF400D /* TKSArticleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleDetailViewController.h; sourceTree = "<group>"; };
 		BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleDetailViewController.m; sourceTree = "<group>"; };
 		BF9D7E8C1EC079AD00D99E14 /* TKSBaseArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseArrayDataSource.h; sourceTree = "<group>"; };
 		BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseArrayDataSource.m; sourceTree = "<group>"; };
+		BFA01E291EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleResponseListAndDetailViewController.h; sourceTree = "<group>"; };
+		BFA01E2A1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleResponseListAndDetailViewController.m; sourceTree = "<group>"; };
 		BFAD921F1EAF4EBB0045AFDA /* TKSTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSTextStorage.h; sourceTree = "<group>"; };
 		BFAD92201EAF4EBB0045AFDA /* TKSTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSTextStorage.m; sourceTree = "<group>"; };
 		BFB832A11EC1AF6600BE40A6 /* TKSArticleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleListTableViewCell.h; sourceTree = "<group>"; };
@@ -67,6 +92,24 @@
 		BFB832A71EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseArrayWithLoadMoreItemDataSource.m; sourceTree = "<group>"; };
 		BFB832A91EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseLoadMoreTableViewCell.h; sourceTree = "<group>"; };
 		BFB832AA1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseLoadMoreTableViewCell.m; sourceTree = "<group>"; };
+		BFBC83431EE7F56D001D760D /* Raleway-Black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Black.ttf"; sourceTree = "<group>"; };
+		BFBC83441EE7F56D001D760D /* Raleway-BlackItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-BlackItalic.ttf"; sourceTree = "<group>"; };
+		BFBC83451EE7F56D001D760D /* Raleway-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Bold.ttf"; sourceTree = "<group>"; };
+		BFBC83461EE7F56D001D760D /* Raleway-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-BoldItalic.ttf"; sourceTree = "<group>"; };
+		BFBC83471EE7F56D001D760D /* Raleway-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraBold.ttf"; sourceTree = "<group>"; };
+		BFBC83481EE7F56D001D760D /* Raleway-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		BFBC83491EE7F56D001D760D /* Raleway-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraLight.ttf"; sourceTree = "<group>"; };
+		BFBC834A1EE7F56D001D760D /* Raleway-ExtraLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
+		BFBC834B1EE7F56D001D760D /* Raleway-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Italic.ttf"; sourceTree = "<group>"; };
+		BFBC834C1EE7F56D001D760D /* Raleway-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Light.ttf"; sourceTree = "<group>"; };
+		BFBC834D1EE7F56D001D760D /* Raleway-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-LightItalic.ttf"; sourceTree = "<group>"; };
+		BFBC834E1EE7F56D001D760D /* Raleway-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Medium.ttf"; sourceTree = "<group>"; };
+		BFBC834F1EE7F56D001D760D /* Raleway-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-MediumItalic.ttf"; sourceTree = "<group>"; };
+		BFBC83501EE7F56D001D760D /* Raleway-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Regular.ttf"; sourceTree = "<group>"; };
+		BFBC83511EE7F56D001D760D /* Raleway-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-SemiBold.ttf"; sourceTree = "<group>"; };
+		BFBC83521EE7F56D001D760D /* Raleway-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		BFBC83531EE7F56D001D760D /* Raleway-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Thin.ttf"; sourceTree = "<group>"; };
+		BFBC83541EE7F56E001D760D /* Raleway-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-ThinItalic.ttf"; sourceTree = "<group>"; };
 		BFBD84651EA8CA9B00870792 /* TKSDataReformProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSDataReformProtocol.h; sourceTree = "<group>"; };
 		BFBD84661EA8E8D700870792 /* CommonMarco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonMarco.h; sourceTree = "<group>"; };
 		BFBD84671EA8E95C00870792 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -74,6 +117,7 @@
 		BFBD84691EA9B8D700870792 /* TKSNetworkingRequestPathManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingRequestPathManager.m; sourceTree = "<group>"; };
 		BFBD846C1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TKSNetworkingRequestPathManager+PathUniformTool.h"; sourceTree = "<group>"; };
 		BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TKSNetworkingRequestPathManager+PathUniformTool.m"; sourceTree = "<group>"; };
+		BFD662F61EEA90DC009AE10C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = htmlSampleText.html; sourceTree = "<group>"; };
 		BFFDF3F51EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSNetworkingAPIRequestManager.h; sourceTree = "<group>"; };
 		BFFDF3F61EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingAPIRequestManager.m; sourceTree = "<group>"; };
@@ -102,6 +146,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFD662F71EEA90DC009AE10C /* AVKit.framework in Frameworks */,
 				857154326B7BABB0F32DA105 /* libPods-TextKitSample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +166,7 @@
 		46EB328B5A58E3C6D8B631C7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFD662F61EEA90DC009AE10C /* AVKit.framework */,
 				609ED99D109DDC44154A8BAE /* libPods-TextKitSample.a */,
 			);
 			name = Frameworks;
@@ -177,6 +223,24 @@
 		BF3E51F71EA867640009B4CB /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				BFBC83431EE7F56D001D760D /* Raleway-Black.ttf */,
+				BFBC83441EE7F56D001D760D /* Raleway-BlackItalic.ttf */,
+				BFBC83451EE7F56D001D760D /* Raleway-Bold.ttf */,
+				BFBC83461EE7F56D001D760D /* Raleway-BoldItalic.ttf */,
+				BFBC83471EE7F56D001D760D /* Raleway-ExtraBold.ttf */,
+				BFBC83481EE7F56D001D760D /* Raleway-ExtraBoldItalic.ttf */,
+				BFBC83491EE7F56D001D760D /* Raleway-ExtraLight.ttf */,
+				BFBC834A1EE7F56D001D760D /* Raleway-ExtraLightItalic.ttf */,
+				BFBC834B1EE7F56D001D760D /* Raleway-Italic.ttf */,
+				BFBC834C1EE7F56D001D760D /* Raleway-Light.ttf */,
+				BFBC834D1EE7F56D001D760D /* Raleway-LightItalic.ttf */,
+				BFBC834E1EE7F56D001D760D /* Raleway-Medium.ttf */,
+				BFBC834F1EE7F56D001D760D /* Raleway-MediumItalic.ttf */,
+				BFBC83501EE7F56D001D760D /* Raleway-Regular.ttf */,
+				BFBC83511EE7F56D001D760D /* Raleway-SemiBold.ttf */,
+				BFBC83521EE7F56D001D760D /* Raleway-SemiBoldItalic.ttf */,
+				BFBC83531EE7F56D001D760D /* Raleway-Thin.ttf */,
+				BFBC83541EE7F56E001D760D /* Raleway-ThinItalic.ttf */,
 				BF3E51F81EA867640009B4CB /* main.m */,
 			);
 			name = "Supporting Files";
@@ -197,6 +261,10 @@
 			children = (
 				BF9CDC111EC5BB8A00FF400D /* TKSArticleDetailViewController.h */,
 				BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */,
+				BFA01E291EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.h */,
+				BFA01E2A1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m */,
+				BF65815C1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.h */,
+				BF65815D1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m */,
 				BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */,
 			);
 			name = ArticleDetailGroup;
@@ -330,10 +398,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFBC83631EE7F56E001D760D /* Raleway-SemiBold.ttf in Resources */,
+				BFBC835C1EE7F56E001D760D /* Raleway-ExtraLightItalic.ttf in Resources */,
+				BFBC83601EE7F56E001D760D /* Raleway-Medium.ttf in Resources */,
+				BFBC83571EE7F56E001D760D /* Raleway-Bold.ttf in Resources */,
+				BFBC835F1EE7F56E001D760D /* Raleway-LightItalic.ttf in Resources */,
+				BFBC83641EE7F56E001D760D /* Raleway-SemiBoldItalic.ttf in Resources */,
+				BFBC83651EE7F56E001D760D /* Raleway-Thin.ttf in Resources */,
 				BFB832A51EC1C4C700BE40A6 /* AKTA.plist in Resources */,
+				BFBC835E1EE7F56E001D760D /* Raleway-Light.ttf in Resources */,
 				BF3E52071EA867640009B4CB /* LaunchScreen.storyboard in Resources */,
+				BFBC83581EE7F56E001D760D /* Raleway-BoldItalic.ttf in Resources */,
+				BFBC835D1EE7F56E001D760D /* Raleway-Italic.ttf in Resources */,
+				BFBC83561EE7F56E001D760D /* Raleway-BlackItalic.ttf in Resources */,
 				BFD858B91ED6DDFA00F18A23 /* htmlSampleText.html in Resources */,
+				BFBC835A1EE7F56E001D760D /* Raleway-ExtraBoldItalic.ttf in Resources */,
+				BFBC83661EE7F56E001D760D /* Raleway-ThinItalic.ttf in Resources */,
+				BFBC83591EE7F56E001D760D /* Raleway-ExtraBold.ttf in Resources */,
+				BFBC83621EE7F56E001D760D /* Raleway-Regular.ttf in Resources */,
+				BFBC835B1EE7F56E001D760D /* Raleway-ExtraLight.ttf in Resources */,
 				BF3E52041EA867640009B4CB /* Assets.xcassets in Resources */,
+				BFBC83551EE7F56E001D760D /* Raleway-Black.ttf in Resources */,
+				BFBC83611EE7F56E001D760D /* Raleway-MediumItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -392,6 +478,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFA01E2B1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m in Sources */,
 				BFAD92211EAF4EBB0045AFDA /* TKSTextStorage.m in Sources */,
 				BF3E51FF1EA867640009B4CB /* TKSArticleListViewController.m in Sources */,
 				BFFDF4011EB88C2E00B1A92F /* TKSAPIRequestGenerator.m in Sources */,
@@ -405,6 +492,7 @@
 				BF3E51FC1EA867640009B4CB /* AppDelegate.m in Sources */,
 				BF3E51F91EA867640009B4CB /* main.m in Sources */,
 				BFBD846E1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m in Sources */,
+				BF65815E1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m in Sources */,
 				BF5D4A111EC306C70093665F /* UIFont+TKSFontDefine.m in Sources */,
 				BFB832AB1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m in Sources */,
 				BFFDF3FE1EB7843600B1A92F /* TKSAPIResponseHandler.m in Sources */,

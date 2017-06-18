@@ -60,4 +60,91 @@
     
     return style;
 }
+
++ (NSDictionary *)articleDiscussPointQuoteTextAttributeInfo {
+    
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgb(0, 0, 0);
+//    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointQuoteTextFont];
+//    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointQuoteTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSMutableParagraphStyle *)articleDiscussPointQuoteTextStyle {
+    
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    
+    style.lineSpacing = 3.0f;
+    style.paragraphSpacing = 0.f;
+    style.firstLineHeadIndent = 0.f;
+    
+    return style;
+}
+
++ (NSDictionary *)articleDiscussPointResponseTextAttributeInfo {
+    
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgb(0, 0, 0);
+    //    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointResponseTextFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointResponseTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSMutableParagraphStyle *)articleDiscussPointResponseTextStyle {
+    
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    
+    style.lineSpacing = 3.0f;
+    style.paragraphSpacing = 0.f;
+    style.firstLineHeadIndent = 0.f;
+    
+    return style;
+}
+
++ (NSDictionary *)articleDiscussPointQuotePositionLabelTextAttributeInfo {
+    
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgb(74, 144, 226);
+    //    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointQuotePositionLabelFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointResponseTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSMutableParagraphStyle *)articleDiscussPointQuotePositionLabelTextStyle {
+    
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    
+    style.lineSpacing = 3.0f;
+    style.paragraphSpacing = 0.f;
+    style.firstLineHeadIndent = 0.f;
+    
+    return style;
+}
 @end
