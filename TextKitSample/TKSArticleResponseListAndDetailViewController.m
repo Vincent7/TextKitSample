@@ -12,7 +12,15 @@
 
 #import "TKSBaseArrayWithLoadMoreItemDataSource.h"
 #import "TKSArticleResponseTableViewCell.h"
-@interface TKSArticleResponseListAndDetailViewController () <UITableViewDelegate,TKSBaseRequestEngineDelegate>
+
+#import "TKSArticleDetailViewController.h"
+
+typedef enum : NSUInteger {
+    barCollapsed,
+    barExpanded,
+    barScrolling,
+} TKSScrollableNavigationBarState;
+@interface TKSArticleResponseListAndDetailViewController () <UITableViewDelegate,TKSBaseRequestEngineDelegate,UICollisionBehaviorDelegate>
 @property (nonatomic, strong) UITableView *articleResponseListTableView;
 @property (nonatomic, strong) NSArray *arrArticleDiscussPointDataSource;
 @property (nonatomic, strong) TKSBaseArrayWithLoadMoreItemDataSource *articleDisscussDataSource;
@@ -21,50 +29,162 @@
 @property (nonatomic, strong) TKSBaseRequestEngine *requestEngine;
 
 @property (nonatomic, strong) NSString *articleHtmlContent;
-@property (nonatomic, strong) UIViewController *articleDetailContentViewController;
-@property (nonatomic, strong) UIView *sampleView;
+@property (nonatomic, strong) TKSArticleDetailViewController *articleDetailContentViewController;
+//@property (nonatomic, strong) UIView *sampleView;
 
 @property (nonatomic, assign) BOOL shouldComplete;
 @property (nonatomic, assign) BOOL shouldExpandState;
 @property (nonatomic, assign) CGFloat percentComplete;
 @property (nonatomic, assign) BOOL interacting;
 
-@property (nonatomic, strong) UIView *animationContainerView;
 @property (nonatomic, strong) UIDynamicAnimator* animator;
-@property (nonatomic, strong) UIDynamicBehavior* topBottomBehavior;
-
+@property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
 @property (nonatomic, strong) UIGravityBehavior* gravityBeahvior;
-@property (nonatomic, strong) UISnapBehavior* snapBeahvior;
 @property (nonatomic, strong) UIAttachmentBehavior* attachmentBehavior;
-@property (nonatomic, strong) UICollisionBehavior* collisionBehavior;
+@property (nonatomic, strong) UICollisionBehavior* topCollisionBehavior;
+@property (nonatomic, strong) UICollisionBehavior* bottomCollisionBehavior;
 
+@property (nonatomic, assign) CGFloat lastContentOffset;
+@property (nonatomic, assign) CGPoint lastAnchorPoint;
+
+@property (nonatomic, assign) TKSScrollableNavigationBarState articleState;
+@property (nonatomic, assign) TKSScrollableNavigationBarState barState;
 @property (nonatomic, strong) UIFieldBehavior *topFieldBehavior;
 @property (nonatomic, strong) UIFieldBehavior *bottomFieldBehavior;
-@end
 
-@implementation TKSArticleResponseListAndDetailViewController
+
+@end
+#define GRAVITYCOEFFICIENT 1.0
+@implementation TKSArticleResponseListAndDetailViewController{
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    NSDictionary *params = @{@"page": @"1"};
     self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleDetailPathWithArticleId:self.articleId] param:nil requestType:GET];
     [self.view addSubview:self.articleResponseListTableView];
-    [self.view addSubview:self.animationContainerView];
-    
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:0.1 alpha:1];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     
-//    [self.animationContainerView addSubview:self.articleDetailContentViewController.view];
-//    [self addChildViewController:self.articleDetailContentViewController];//  2
-//    [self.articleDetailContentViewController didMoveToParentViewController:self];
-    [self.view addSubview:self.sampleView];
+    [self.view addSubview:self.articleDetailContentViewController.view];
+    [self addChildViewController:self.articleDetailContentViewController];//  2
+    [self.articleDetailContentViewController didMoveToParentViewController:self];
+    
+    [self.articleDetailContentViewController.view addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew context:nil];
+    
+    self.lastAnchorPoint = CGPointZero;
+//    [self.view addSubview:self.sampleView];
     
     
     //    [self.animator addBehavior:self.snapBeahvior];
     // Do any additional setup after loading the view.
+}
+- (CGRect)statusBarFrame{
+    return [UIApplication sharedApplication].statusBarFrame;
+}
+- (CGFloat)statusBarFrameHeight{
+    return [self statusBarFrame].size.height;
+}
+- (CGRect)navBarFrame{
+    return self.navigationController.navigationBar.frame;
+}
+- (CGFloat)navBarFrameHeight{
+    return [self navBarFrame].size.height;
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    // Do what you have to do here with the new position
+    if ([keyPath isEqualToString:@"center"]) {
+        
+        UIView *changedView = object;
+        CGPoint newCenter = [[change valueForKey:@"new"] CGPointValue];
+
+        CGFloat newTopLine = newCenter.y - changedView.frame.size.height/2;
+        CGFloat delta = _lastContentOffset - newTopLine;
+        _lastContentOffset = newTopLine;
+
+        CGRect barFrame = [self navBarFrame];
+        CGFloat navBarY = [self statusBarFrameHeight] + [self navBarFrameHeight];
+        if (delta > 0) {
+            if (newTopLine > navBarY) {
+                return;
+            }
+        }
+        CGFloat newBarYOffset = MIN([self statusBarFrameHeight], MAX(barFrame.origin.y - delta, -[self navBarFrameHeight] + [self statusBarFrameHeight])) ;
+        CGPoint newBarOrigin = CGPointMake(barFrame.origin.x, newBarYOffset);
+
+        barFrame.origin = newBarOrigin;
+
+        self.navigationController.navigationBar.frame = barFrame;
+
+    }
+}
+-(UIDynamicItemBehavior *)itemBehavior{
+    if (!_itemBehavior) {
+        _itemBehavior = [[UIDynamicItemBehavior alloc]initWithItems:@[self.articleDetailContentViewController.view]];
+        _itemBehavior.density = 0.01;
+        _itemBehavior.resistance = 10;
+        _itemBehavior.friction = 0.0;
+        _itemBehavior.allowsRotation = false;
+    }
+    return _itemBehavior;
+}
+-(UIFieldBehavior *)topFieldBehavior{
+    if (!_topFieldBehavior) {
+        _topFieldBehavior = [UIFieldBehavior springField];
+        [_topFieldBehavior addItem:self.articleDetailContentViewController.view];
+        CGSize regionSize = CGSizeMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight]);
+        UIRegion *topBufferRegion = [[UIRegion alloc]initWithSize:regionSize];
+        _topFieldBehavior.region = topBufferRegion;
+        _topFieldBehavior.position = CGPointMake(SCREEN_WIDTH/2, [self statusBarFrameHeight] + (SCREENH_HEIGHT - [self statusBarFrameHeight])/2);
+        _topFieldBehavior.strength = 20;
+    }
+    return _topFieldBehavior;
+}
+-(UIFieldBehavior *)bottomFieldBehavior{
+    if (!_bottomFieldBehavior) {
+        _bottomFieldBehavior = [UIFieldBehavior springField];
+        [_bottomFieldBehavior addItem:self.articleDetailContentViewController.view];
+        CGSize regionSize = CGSizeMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight]);
+        UIRegion *buttomBufferRegion = [[UIRegion alloc]initWithSize:regionSize];
+        _bottomFieldBehavior.region = buttomBufferRegion;
+        _bottomFieldBehavior.position = CGPointMake(SCREEN_WIDTH/2, SCREENH_HEIGHT - [self navBarFrameHeight] + (SCREENH_HEIGHT - [self statusBarFrameHeight])/2);
+        _bottomFieldBehavior.strength = 20;
+    }
+    return _bottomFieldBehavior;
+}
+-(UICollisionBehavior *)topCollisionBehavior{
+    if (!_topCollisionBehavior) {
+        _topCollisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.articleDetailContentViewController.view]];
+        [_topCollisionBehavior addBoundaryWithIdentifier:@"TopBoundary"
+                                               fromPoint:CGPointMake(0, [self statusBarFrameHeight]-.5)
+                                                 toPoint:CGPointMake(SCREEN_WIDTH, [self statusBarFrameHeight]-.5)];
+        
+    }
+    return _topCollisionBehavior;
+}
+-(UICollisionBehavior *)bottomCollisionBehavior{
+    if (!_bottomCollisionBehavior) {
+        _bottomCollisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.articleDetailContentViewController.view]];
+        [_bottomCollisionBehavior addBoundaryWithIdentifier:@"bottomBoundary"
+                                                  fromPoint:CGPointMake(0, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight])
+                                                    toPoint:CGPointMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight])];
+    }
+    return _bottomCollisionBehavior;
+}
+
+-(UIGravityBehavior *)gravityBeahvior{
+    if (!_gravityBeahvior) {
+        _gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.articleDetailContentViewController.view]];
+        _gravityBeahvior.gravityDirection = CGVectorMake(0, GRAVITYCOEFFICIENT);
+    }
+    return _gravityBeahvior;
+}
+-(void)dealloc{
+    [self.articleDetailContentViewController.view removeObserver:self forKeyPath:@"center"];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -77,58 +197,28 @@
         make.top.equalTo(@0);
         make.bottom.equalTo(@-44);
     }];
-    [self.animationContainerView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREENH_HEIGHT)];
-    [self.sampleView setFrame:CGRectMake(0, SCREENH_HEIGHT - 45, SCREEN_WIDTH, SCREENH_HEIGHT)];
+    [self.articleDetailContentViewController.view setFrame:CGRectMake(0, SCREENH_HEIGHT - [self navBarFrameHeight] - 1, SCREEN_WIDTH, SCREENH_HEIGHT - [self statusBarFrameHeight])];
+//    self.lastContentOffset = SCREENH_HEIGHT - 45;
+    self.articleState = barCollapsed;
 //    [self.articleDetailContentViewController.view mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.height.equalTo(self.view.mas_height);
 //        make.width.equalTo(self.view.mas_width);
 ////        make.top.equalTo(self.view.mas_bottom).offset(-44);
 ////        make.bottom.equalTo(@0);
 //    }];
+    
+    
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-    [self.animator setValue:@(TRUE) forKey:@"debugEnabled"];
-
-    UICollisionBehavior* collisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.sampleView]];
-//    collisionBehavior.translatesReferenceBoundsIntoBoundary = YES;
-    [collisionBehavior addBoundaryWithIdentifier:@"TopBoundary" fromPoint:CGPointMake(0, 0) toPoint:CGPointMake(SCREEN_WIDTH, 0)];
-//    [collisionBehavior addBoundaryWithIdentifier:@"LeftBoundary" fromPoint:CGPointMake(0, 0) toPoint:CGPointMake(0, SCREENH_HEIGHT)];
-//    [collisionBehavior addBoundaryWithIdentifier:@"RightBoundary" fromPoint:CGPointMake(SCREEN_WIDTH, 0) toPoint:CGPointMake(SCREEN_WIDTH, SCREENH_HEIGHT)];
-    [collisionBehavior addBoundaryWithIdentifier:@"bottomBoundary" fromPoint:CGPointMake(0, SCREENH_HEIGHT + SCREENH_HEIGHT - 44) toPoint:CGPointMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - 44)];
-    self.collisionBehavior = collisionBehavior;
-//
-    UIGravityBehavior *g = [[UIGravityBehavior alloc] initWithItems:@[self.sampleView]];
-    g.gravityDirection = CGVectorMake(0, 1);
-    self.gravityBeahvior = g;
-//
-    self.topBottomBehavior = [[UIDynamicBehavior alloc]init];
-    
-
-    self.topFieldBehavior = [UIFieldBehavior springField];
-    [self.topFieldBehavior addItem:self.sampleView];
-    [self.topFieldBehavior setPosition:self.animationContainerView.center];
-    [self.topFieldBehavior setStrength:2];
-    UIRegion *topFieldRegion = [[UIRegion alloc]initWithSize:CGSizeMake(SCREEN_WIDTH, SCREENH_HEIGHT)];
-    [self.topFieldBehavior setRegion:topFieldRegion];
-    
-    self.bottomFieldBehavior = [UIFieldBehavior springField];
-    [self.bottomFieldBehavior addItem:self.sampleView];
-    [self.bottomFieldBehavior setPosition:CGPointMake(SCREEN_WIDTH/2, SCREENH_HEIGHT + SCREENH_HEIGHT/2 - 44)];
-    [self.bottomFieldBehavior setStrength:2];
-    UIRegion *bottomFieldRegion = [[UIRegion alloc]initWithSize:CGSizeMake(SCREEN_WIDTH, SCREENH_HEIGHT/2)];
-    [self.bottomFieldBehavior setRegion:bottomFieldRegion];
-    
-//    [self.topBottomBehavior addChildBehavior:self.collisionBehavior];
-//    [self.topBottomBehavior addChildBehavior:self.topFieldBehavior];
-//    [self.topBottomBehavior addChildBehavior:self.bottomFieldBehavior];
-    
-    [self.animator addBehavior:self.collisionBehavior];
-    [self.animator addBehavior:self.gravityBeahvior];
+//    [self.animator setValue:@(TRUE) forKey:@"debugEnabled"];
+    [self.animator addBehavior:self.topCollisionBehavior];
+    [self.animator addBehavior:self.bottomCollisionBehavior];
+    [self.animator addBehavior:self.itemBehavior];
+    [self.animator addBehavior:self.bottomFieldBehavior];
+//    [self.animator addBehavior:self.gravityBeahvior];
 //    [self.animator addBehavior:self.topFieldBehavior];
 //    [self.animator addBehavior:self.bottomFieldBehavior];
-//    self.topFieldBehavior = [[UIFieldBehavior alloc]init]
-
     
-    [self prepareGestureRecognizerInView:self.sampleView];
+    [self prepareGestureRecognizerInView:self.articleDetailContentViewController.view];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -139,105 +229,74 @@
     UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [view addGestureRecognizer:gesture];
 }
--(CGFloat)completionSpeed
-{
-    return 1 - self.percentComplete;
-}
-
 - (void)handleGesture:(UIPanGestureRecognizer *)gesture {
-    CGPoint touchPoint = [gesture locationInView:self.animationContainerView];
-    CGPoint translationPoint = [gesture translationInView:gesture.view.superview];
+    CGPoint touchPoint = [gesture locationInView:self.view];
+    CGPoint velocity = [gesture velocityInView:self.view];
+//    CGFloat delta = _scrollViewlastContentOffset = touchPoint.y;
+//    _scrollViewlastContentOffset = touchPoint.y;
+    NSLog(@"%f",velocity.y);
     UIView* draggedView = gesture.view;
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:{
 //            self.interacting = YES;
+//            NSLog(@"UIGestureRecognizerStateBegan");
             self.attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:draggedView attachedToAnchor:CGPointMake(gesture.view.superview.center.x, touchPoint.y)];
             [self.animator addBehavior:self.attachmentBehavior];
-
+            self.lastAnchorPoint = touchPoint;
+            NSLog(@"start anchor y: %f",self.lastAnchorPoint.y);
             break;
         }
         case UIGestureRecognizerStateChanged: {
-            CGFloat fraction = touchPoint.y / (SCREENH_HEIGHT);
-            fraction = fminf(fmaxf(fraction, 0.0), 1.0);
-//            self.shouldExpandState = (fraction > 0.5);
-            CGFloat anchorYOffset;
-            if (self.shouldExpandState) {
-                anchorYOffset = 0;//- fraction * SCREENH_HEIGHT/4;
-            }else{
-                anchorYOffset = 0;//fraction * SCREENH_HEIGHT/4;
+
+            self.articleState = barScrolling;
+            
+            if (!self.shouldExpandState && touchPoint.y > self.lastAnchorPoint.y) {
+                touchPoint = CGPointMake(touchPoint.x, self.lastAnchorPoint.y);
             }
-            [self.attachmentBehavior setAnchorPoint:CGPointMake(gesture.view.superview.center.x, touchPoint.y + anchorYOffset)];
-            [self.animator removeBehavior:self.gravityBeahvior];
-//            [self.animator removeBehavior:self.topFieldBehavior];
-//            [self.animator removeBehavior:self.bottomFieldBehavior];
-//            [self.topBottomBehavior removeChildBehavior:self.topFieldBehavior];
-//            [self.topBottomBehavior removeChildBehavior:self.bottomFieldBehavior];
-//            CGPoint point = [gesture locationInView:self.view];
-//            [self.attachmentBehavior setAnchorPoint:[gesture locationInView:self.view]];
+            if (self.shouldExpandState && touchPoint.y < self.lastAnchorPoint.y) {
+                touchPoint = CGPointMake(touchPoint.x, self.lastAnchorPoint.y);
+            }
+            if(velocity.y > 0){
+                [self.animator removeBehavior:self.topCollisionBehavior];
+                [self.animator addBehavior:self.bottomCollisionBehavior];
+                
+            }else{
+                
+                [self.animator removeBehavior:self.bottomCollisionBehavior];
+                [self.animator addBehavior:self.topCollisionBehavior];
+            }
+            [self.attachmentBehavior setAnchorPoint:CGPointMake(gesture.view.superview.center.x, touchPoint.y)];
             
-            // 2. Calculate the percentage of guesture
-            
-            //Limit it between 0 and 1
-            
-//            [self updateInteractiveTransition:fraction];
+            [self.animator removeBehavior:self.topFieldBehavior];
+            [self.animator removeBehavior:self.bottomFieldBehavior];
             break;
         }
         case UIGestureRecognizerStateEnded:
         case UIGestureRecognizerStateCancelled: {
+            self.lastAnchorPoint = CGPointZero;
             CGFloat fraction = touchPoint.y / (SCREENH_HEIGHT);
             fraction = fminf(fmaxf(fraction, 0.0), 1.0);
-            self.shouldExpandState = (fraction > 0.5);
+            self.shouldExpandState = (fraction < 0.5);
             [self.animator removeBehavior:self.attachmentBehavior];
-            [self.animator addBehavior:self.gravityBeahvior];
-//            [self.animator addBehavior:self.topFieldBehavior];
-//            [self.animator addBehavior:self.bottomFieldBehavior];
-//            [self.topBottomBehavior addChildBehavior:self.topFieldBehavior];
-//            [self.topBottomBehavior addChildBehavior:self.bottomFieldBehavior];
-//            self.interacting = NO;
-            if (self.shouldExpandState) {
-                self.gravityBeahvior.gravityDirection = CGVectorMake(0, 1);
+            
+            if (!self.shouldExpandState) {
+                self.gravityBeahvior.gravityDirection = CGVectorMake(0, 3);
+                [self.animator addBehavior:self.bottomFieldBehavior];
+                [self.animator addBehavior:self.bottomCollisionBehavior];
             }else{
-                self.gravityBeahvior.gravityDirection = CGVectorMake(0, -1);
+                self.gravityBeahvior.gravityDirection = CGVectorMake(0, -3);
+                [self.animator addBehavior:self.topFieldBehavior];
+                [self.animator addBehavior:self.topCollisionBehavior];
             }
-//            if (!self.shouldComplete || gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
-//                [self cancelInteractiveTransition];
-//            } else {
-//                [self finishInteractiveTransition];
-//                self.isExpandState = !self.isExpandState;
-//            }
+            
+            
             break;
         }
         default:
             break;
     }
 }
-//-(void)cancelInteractiveTransition{
-//    CGFloat y;
-//    if (!self.isExpandState) {
-//        y = SCREENH_HEIGHT - 44;
-//    }else{
-//        y = 0;
-//    }
-//    [self.articleDetailContentViewController.view setFrame:CGRectMake(0, y, SCREEN_WIDTH, SCREENH_HEIGHT)];
-//}
-//-(void)finishInteractiveTransition{
-//    CGFloat y;
-//    if (!self.isExpandState) {
-//        y = 0;
-//    }else{
-//        y = SCREENH_HEIGHT - 44;
-//    }
-//    [self.articleDetailContentViewController.view setFrame:CGRectMake(0, y, SCREEN_WIDTH, SCREENH_HEIGHT)];
-//}
-//-(void)updateInteractiveTransition:(CGFloat)fraction{
-//    CGFloat y;
-//    if (!self.isExpandState) {
-//        y = SCREENH_HEIGHT * (1 - fraction);
-//    }else{
-//        y = (SCREENH_HEIGHT - 44) * (fraction);
-//    }
-//    [self.articleDetailContentViewController.view setFrame:CGRectMake(0, y, SCREEN_WIDTH, SCREENH_HEIGHT)];
-//}
+
 #pragma mark - Notifying refresh control of scrolling
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -268,6 +327,8 @@
         NSDictionary *articleDetail = [data objectForKey:@"results"];
         self.arrArticleDiscussPointDataSource = [NSArray arrayWithArray:[articleDetail objectForKey:@"article_responses"]];
         self.articleHtmlContent = [articleDetail objectForKey:@"article_html_content"];
+        self.articleDetailContentViewController.htmlContentString = self.articleHtmlContent;
+        [self.articleDetailContentViewController setUpTextViewWithArticleHtmlContent:self.articleDetailContentViewController.htmlContentString];
         self.articleDisscussDataSource.items = self.arrArticleDiscussPointDataSource;
         [self.articleResponseListTableView reloadData];
         [self finishRefreshControl];
@@ -276,26 +337,10 @@
     
 }
 #pragma mark - setter and getter
--(UIView *)sampleView{
-    if (!_sampleView) {
-        _sampleView = [[UIView alloc]init];
-        _sampleView.backgroundColor = [UIColor yellowColor];
-        _sampleView.userInteractionEnabled = YES;
-    }
-    return _sampleView;
-}
--(UIView *)animationContainerView{
-    if (!_animationContainerView) {
-        _animationContainerView = [[UIView alloc]init];
-        _animationContainerView.backgroundColor = [UIColor clearColor];
-        _animationContainerView.userInteractionEnabled = NO;
-    }
-    return _animationContainerView;
-}
--(UIViewController *)articleDetailContentViewController{
+
+-(TKSArticleDetailViewController *)articleDetailContentViewController{
     if (!_articleDetailContentViewController) {
-        _articleDetailContentViewController = [UIViewController new];
-        _articleDetailContentViewController.view.backgroundColor = [UIColor blueColor];
+        _articleDetailContentViewController = [TKSArticleDetailViewController new];
         self.shouldExpandState = NO;
     }
     return _articleDetailContentViewController;

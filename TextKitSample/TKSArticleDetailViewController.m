@@ -23,6 +23,8 @@
 
 @property (nonatomic, strong) NSMutableDictionary *picIdentiferInfo;
 @property (nonatomic, strong) NSMutableDictionary *mediaPlayers;
+
+@property (nonatomic, strong) UIView *detailArticleTitleContainer;
 @end
 
 @implementation TKSArticleDetailViewController
@@ -30,8 +32,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.sampleTextView];
+    [self.view addSubview:self.detailArticleTitleContainer];
+    [self.detailArticleTitleContainer mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(@0);
+        make.left.mas_equalTo(@0);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.height.mas_equalTo(@44);
+    }];
     [self.sampleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+        make.edges.mas_equalTo(UIEdgeInsetsMake(44, 0, 0, 0));
     }];
     // Do any additional setup after loading the view.
 }
@@ -39,7 +48,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self setUpTextViewWithArticleHtmlContent:self.htmlContentString];
+//    [self setUpTextViewWithArticleHtmlContent:self.htmlContentString];
     
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -56,6 +65,13 @@
     _htmlContentString = htmlContentString;
     
 }
+-(UIView *)detailArticleTitleContainer{
+    if (!_detailArticleTitleContainer) {
+        _detailArticleTitleContainer = [[UIView alloc] init];
+        _detailArticleTitleContainer.backgroundColor = [UIColor greenColor];
+    }
+    return _detailArticleTitleContainer;
+}
 -(DTAttributedTextView *)sampleTextView{
     if (!_sampleTextView) {
         _sampleTextView = [[DTAttributedTextView alloc] initWithFrame:CGRectZero];
@@ -68,29 +84,37 @@
 -(NSDictionary *)customParaStyleHead1{
     return @{TKSCustomParaStyleHeadIndent: @20,
              TKSCustomParaStyleTailIndent: @-20,
-             TKSCustomParaStyleParagraphSpacing: @10,
-             TKSCustomParaStyleParagraphSpacingBefore: @20,
+             TKSCustomParaStyleParagraphSpacing: @5,
+             TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Raleway-SemiBold",
+             TKSCustomParaStyleTextColorHex: @"#000000",
              TKSCustomParaStyleLineHeightMultiple: @1.1};
 }
 -(NSDictionary *)customParaStyleHead2{
     return @{TKSCustomParaStyleHeadIndent: @20,
              TKSCustomParaStyleTailIndent: @-20,
-             TKSCustomParaStyleParagraphSpacing: @20,
-             TKSCustomParaStyleParagraphSpacingBefore: @20,
+             TKSCustomParaStyleParagraphSpacing: @15,
+             TKSCustomParaStyleParagraphSpacingBefore: @5,
+             TKSCustomParaStyleFontName: @"Raleway-Regular",
+             TKSCustomParaStyleTextColorHex: @"#9B9B9B",
              TKSCustomParaStyleLineHeightMultiple: @1.2};
 }
 -(NSDictionary *)customParaStyleHead3{
     return @{TKSCustomParaStyleHeadIndent: @20,
              TKSCustomParaStyleTailIndent: @-20,
-             TKSCustomParaStyleParagraphSpacing: @20,
-             TKSCustomParaStyleParagraphSpacingBefore: @20,
+             TKSCustomParaStyleParagraphSpacing: @10,
+             TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Raleway-SemiBold",
+             TKSCustomParaStyleTextColorHex: @"#000000",
              TKSCustomParaStyleLineHeightMultiple: @1.2};
 }
 -(NSDictionary *)customParaStyleHead4{
     return @{TKSCustomParaStyleHeadIndent: @20,
              TKSCustomParaStyleTailIndent: @-20,
-             TKSCustomParaStyleParagraphSpacing: @20,
-             TKSCustomParaStyleParagraphSpacingBefore: @20,
+             TKSCustomParaStyleParagraphSpacing: @10,
+             TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Raleway-Regular",
+             TKSCustomParaStyleTextColorHex: @"#000000",
              TKSCustomParaStyleLineHeightMultiple: @1.2};
 }
 -(NSDictionary *)customParaStylePara{
@@ -98,6 +122,8 @@
              TKSCustomParaStyleTailIndent: @-20,
              TKSCustomParaStyleParagraphSpacing: @20,
              TKSCustomParaStyleParagraphSpacingBefore: @20,
+             TKSCustomParaStyleFontName: @"Raleway-Regular",
+             TKSCustomParaStyleTextColorHex: @"#000000",
              TKSCustomParaStyleLineHeightMultiple: @1.4};
 }
 -(NSDictionary *)customParaStyleFigcaption{
@@ -105,6 +131,9 @@
              TKSCustomParaStyleTailIndent: @-40,
              TKSCustomParaStyleParagraphSpacing: @10,
              TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Raleway-Regular",
+             TKSCustomParaStyleFontSize: @12,
+             TKSCustomParaStyleTextColorHex: @"#9B9B9B",
              TKSCustomParaStyleLineHeightMultiple: @1};
 }
 -(NSDictionary *)customParaStylePre{
@@ -112,7 +141,38 @@
              TKSCustomParaStyleTailIndent: @-40,
              TKSCustomParaStyleParagraphSpacing: @10,
              TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Releway-Regular",
+             TKSCustomParaStyleTextColorHex: @"#4A90E2",
              TKSCustomParaStyleLineHeightMultiple: @1};
+}
+-(NSDictionary *)customParaStyleBlockQuote{
+    return @{TKSCustomParaStyleHeadIndent: @20,
+             TKSCustomParaStyleTailIndent: @-40,
+             TKSCustomParaStyleParagraphSpacing: @10,
+             TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Raleway-LightItalic",
+             TKSCustomParaStyleTextColorHex: @"#9B9B9B",
+             TKSCustomParaStyleLineHeightMultiple: @1};
+}
+-(NSDictionary *)customParaStyleOL{
+    return @{TKSCustomParaStyleHeadIndent: @40,
+             TKSCustomParaStyleTailIndent: @-20,
+//             TKSCustomParaStyleParagraphSpacing: @10,
+//             TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Raleway-Regular",
+//             TKSCustomParaStyleTextColorHex: @"#000000",
+//             TKSCustomParaStyleLineHeightMultiple: @1
+             };
+}
+-(NSDictionary *)customParaStyleLI{
+    return @{TKSCustomParaStyleHeadIndent: @40,
+             TKSCustomParaStyleTailIndent: @-20,
+//             TKSCustomParaStyleParagraphSpacing: @10,
+//             TKSCustomParaStyleParagraphSpacingBefore: @10,
+             TKSCustomParaStyleFontName: @"Raleway-Regular",
+//             TKSCustomParaStyleTextColorHex: @"#000000",
+//             TKSCustomParaStyleLineHeightMultiple: @1
+             };
 }
 -(NSDictionary *)customParaStyle{
     return @{@"h1":[self customParaStyleHead1],
@@ -121,6 +181,9 @@
              @"h4":[self customParaStyleHead4],
              @"p":[self customParaStylePara],
              @"pre":[self customParaStylePre],
+             @"blockquote":[self customParaStyleBlockQuote],
+             @"ol":[self customParaStyleOL],
+             @"li":[self customParaStyleLI],
              @"figcaption":[self customParaStyleFigcaption]};
 }
 - (void)setUpTextViewWithArticleHtmlContent:(NSString *)htmlContent{
@@ -138,9 +201,10 @@
 
     NSDictionary *builderOptions = @{
                                      DTDefaultFontFamily: @"Raleway",
-                                     DTDefaultFontName: @"Raleway-Light",
+                                     DTDefaultFontName: @"Raleway-Regular",
                                      DTCoreTextCustomParagraphStyleInfo: [self customParaStyle],
                                      DTDefaultFontSize: @16,
+                                     DTDefaultHeadIndent: @20,
                                      DTMaxImageSize: sizeValue
                                      };
     DTHTMLAttributedStringBuilder *attrString = [[DTHTMLAttributedStringBuilder alloc] initWithHTML:data options:builderOptions  documentAttributes:nil];

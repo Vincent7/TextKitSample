@@ -15,12 +15,12 @@
 }
 
 +(UIFont *)articleSubtitleFontOfSize:(CGFloat)fontSize{
-    return [UIFont fontWithName:@"Raleway-Regular" size:fontSize];
+    return [UIFont fontWithName:@"Raleway-Medium" size:fontSize];
 //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightRegular];
 }
 
 +(UIFont *)articleTextFontOfSize:(CGFloat)fontSize{
-    return [UIFont fontWithName:@"Raleway-Light" size:fontSize];
+    return [UIFont fontWithName:@"Raleway-Regular" size:fontSize];
 //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
 }
 

@@ -10,4 +10,5 @@
 
 @interface TKSArticleDetailViewController : UIViewController
 @property (nonatomic, strong)NSString *htmlContentString;
+- (void)setUpTextViewWithArticleHtmlContent:(NSString *)htmlContent;
 @end
