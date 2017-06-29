@@ -11,6 +11,7 @@
 @interface TKSArticleResponseTableViewCell()
 @property (nonatomic, strong) NSString *quote;
 @property (nonatomic, strong) NSString *response;
+@property (nonatomic, strong) NSString *paraIdentifer;
 
 @property (nonatomic, strong) UIImageView *upperBoundaryImageView;
 @property (nonatomic, strong) UIImageView *lowerBoundaryImageView;
@@ -105,6 +106,9 @@
     //    [self.lblArticleBriefText setHidden:[subtitle isEqualToString:@""]];
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc]initWithString:response attributes:[TKSTextParagraphAttributeManager articleDiscussPointResponseTextAttributeInfo]];
     [self.lblResponseText setAttributedText:attrString];
+}
+-(void)setParaIdentifer:(NSString *)paraIdentifer{
+    self.paraIdentifer = paraIdentifer;
 }
 #pragma mark - getter and setter
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

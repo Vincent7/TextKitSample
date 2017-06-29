@@ -216,6 +216,7 @@
 //                                            error: nil
 //                                            ];
     NSAttributedString *attributedString = [attrString generatedAttributedString];
+    [self.sampleTextView setParaIdentiferIndexInfo:attrString.paragraphQuoteMarkObjectsInfo];
     [self.sampleTextView setAttributedString:attributedString];
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 //        NSAttributedString *attributedString = [[NSAttributedString alloc]
@@ -245,6 +246,12 @@
 //    [_textStorage replaceCharactersInRange:NSMakeRange(0, 0) withString:mediumText];
     
     
+}
+-(void)scrollWithParaIdentifer:(NSString *)paraIdentifer{
+    CGFloat offset = [self.sampleTextView.paraMarkManager getParaOriginYWithIdentifer:paraIdentifer];
+    
+    [self.sampleTextView scrollRectToVisible:CGRectMake(0, offset - self.sampleTextView.frame.size.height/3, self.sampleTextView.frame.size.width, self.sampleTextView.frame.size.height)
+                                    animated:YES];
 }
 //- (void)setUpTextViewWithArticleInfo:(NSDictionary *)info{
 //
@@ -384,43 +391,6 @@
             [self.mediaPlayers setObject:playerController forKey:url.absoluteString];
         }
         
-//        NSString *airplayAttr = [attachment.attributes objectForKey:@"x-webkit-airplay"];
-//        if ([airplayAttr isEqualToString:@"allow"])
-//        {
-//            playerController.player.allowsExternalPlayback = YES;
-//        }
-//        
-//        NSString *controlsAttr = [attachment.attributes objectForKey:@"controls"];
-//        if (controlsAttr)
-//        {
-//            playerController.player.controlStyle = MPMovieControlStyleEmbedded;
-//        }
-//        else
-//        {
-//            player.controlStyle = MPMovieControlStyleNone;
-//        }
-//        
-//        NSString *loopAttr = [attachment.attributes objectForKey:@"loop"];
-//        if (loopAttr)
-//        {
-//            player.repeatMode = MPMovieRepeatModeOne;
-//        }
-//        else
-//        {
-//            player.repeatMode = MPMovieRepeatModeNone;
-//        }
-//        
-//        NSString *autoplayAttr = [attachment.attributes objectForKey:@"autoplay"];
-//        if (autoplayAttr)
-//        {
-//            player.shouldAutoplay = YES;
-//        }
-//        else
-//        {
-//            player.shouldAutoplay = NO;
-//        }
-        
-//        [playerController prepareToPlay];
         
         playerController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         playerController.view.frame = grayView.bounds;

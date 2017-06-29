@@ -55,9 +55,7 @@ typedef enum : NSUInteger {
 
 @end
 #define GRAVITYCOEFFICIENT 1.0
-@implementation TKSArticleResponseListAndDetailViewController{
-    
-}
+@implementation TKSArticleResponseListAndDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -232,14 +230,12 @@ typedef enum : NSUInteger {
 - (void)handleGesture:(UIPanGestureRecognizer *)gesture {
     CGPoint touchPoint = [gesture locationInView:self.view];
     CGPoint velocity = [gesture velocityInView:self.view];
-//    CGFloat delta = _scrollViewlastContentOffset = touchPoint.y;
-//    _scrollViewlastContentOffset = touchPoint.y;
+
     NSLog(@"%f",velocity.y);
     UIView* draggedView = gesture.view;
     switch (gesture.state) {
         case UIGestureRecognizerStateBegan:{
-//            self.interacting = YES;
-//            NSLog(@"UIGestureRecognizerStateBegan");
+
             self.attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:draggedView attachedToAnchor:CGPointMake(gesture.view.superview.center.x, touchPoint.y)];
             [self.animator addBehavior:self.attachmentBehavior];
             self.lastAnchorPoint = touchPoint;
@@ -287,6 +283,7 @@ typedef enum : NSUInteger {
                 self.gravityBeahvior.gravityDirection = CGVectorMake(0, -3);
                 [self.animator addBehavior:self.topFieldBehavior];
                 [self.animator addBehavior:self.topCollisionBehavior];
+                
             }
             
             
@@ -375,12 +372,16 @@ typedef enum : NSUInteger {
             TKSArticleResponseTableViewCell *discussPointCell = (TKSArticleResponseTableViewCell*)cell;
             
             NSString *quote = @"";
+            NSString *paraIdentifer = @"";
             NSString *response = @"";
             if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"quote"] isEqual:[NSNull null]] &&[item objectForKey:@"quote"]) {
                 quote = [item objectForKey:@"quote"];
             }
             if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"response"] isEqual:[NSNull null]] &&[item objectForKey:@"response"]) {
                 response = [item objectForKey:@"response"];
+            }
+            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"paraIdentifer"] isEqual:[NSNull null]] &&[item objectForKey:@"paraIdentifer"]) {
+                paraIdentifer = [item objectForKey:@"paraIdentifer"];
             }
             [discussPointCell setQuoteText:quote];
             [discussPointCell setResponseText:response];
@@ -389,6 +390,21 @@ typedef enum : NSUInteger {
         }];
     }
     return _articleDisscussDataSource;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
+    NSString *paraIdentifer = @"8f91";
+    id item = [self.articleDisscussDataSource itemAtIndexPath:indexPath];
+    if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"paraIdentifer"] isEqual:[NSNull null]] &&[item objectForKey:@"paraIdentifer"]) {
+        paraIdentifer = [item objectForKey:@"paraIdentifer"];
+        
+    }
+    [self.animator addBehavior:self.topFieldBehavior];
+    [self.animator addBehavior:self.topCollisionBehavior];
+    [self.animator removeBehavior:self.bottomFieldBehavior];
+    self.shouldExpandState = YES;
+    [self.articleDetailContentViewController scrollWithParaIdentifer:paraIdentifer];
 }
 /*
 #pragma mark - Navigation

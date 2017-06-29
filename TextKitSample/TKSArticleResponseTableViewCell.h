@@ -14,5 +14,5 @@
 
 - (void)setQuoteText:(NSString *)quote;
 - (void)setResponseText:(NSString *)response;
-
+- (void)setParaIdentifer:(NSString *)paraIdentifer;
 @end
