@@ -53,6 +53,14 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    NSUserDefaults *frameSize = [NSUserDefaults standardUserDefaults];
+    //Put frame size into defaults
+    
+    NSData *barFrameData = [frameSize objectForKey:@"frame"];
+    NSValue *barFrameValue = [NSKeyedUnarchiver unarchiveObjectWithData:barFrameData];
+    CGRect barFrame = [barFrameValue CGRectValue];
+    
+    self.navigationController.navigationBar.frame = barFrame;
 //    [self.sampleTextView relayoutText];
 }
 - (void)didReceiveMemoryWarning {
@@ -187,10 +195,6 @@
              @"figcaption":[self customParaStyleFigcaption]};
 }
 - (void)setUpTextViewWithArticleHtmlContent:(NSString *)htmlContent{
-//    NSString *htmlSampleString =
-//    NSString *path = [[NSBundle mainBundle] pathForResource:@"htmlSampleText" ofType:@"html"];
-//    NSString *sampleHtmlContent = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-//    NSString *dataEncodingWithLt = [sampleHtmlContent stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
     
     NSString *dataEncodingWithLt = [htmlContent stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
     
@@ -209,79 +213,26 @@
                                      };
     DTHTMLAttributedStringBuilder *attrString = [[DTHTMLAttributedStringBuilder alloc] initWithHTML:data options:builderOptions  documentAttributes:nil];
 
-//    NSAttributedString *attributedString = [[NSAttributedString alloc]
-//                                            initWithData: [htmlContent dataUsingEncoding:NSUTF8StringEncoding]
-//                                            options: @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType }
-//                                            documentAttributes: nil
-//                                            error: nil
-//                                            ];
     NSAttributedString *attributedString = [attrString generatedAttributedString];
     [self.sampleTextView setParaIdentiferIndexInfo:attrString.paragraphQuoteMarkObjectsInfo];
     [self.sampleTextView setAttributedString:attributedString];
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        NSAttributedString *attributedString = [[NSAttributedString alloc]
-//                                                initWithData: [htmlContent dataUsingEncoding:NSUTF8StringEncoding]
-//                                                options: @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType }
-//                                                documentAttributes: nil
-//                                                error: nil
-//                                                ];
-//        [attributedString enumerateAttributesInRange:NSMakeRange(0, attributedString.length) options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(NSDictionary<NSString *,id> * _Nonnull attrs, NSRange range, BOOL * _Nonnull stop) {
-//            if ([attrs objectForKey:@"NSParagraphStyle"]) {
-//                NSFont *paragraphFont = [attrs objectForKey:@"NSFont"];
-//                NSMutableParagraphStyle *paragraphStyle = [attrs objectForKey:@"NSParagraphStyle"];
-//                NSString *description = paragraphStyle.description;
-//                if (range.location+range.length >= attributedString.length) {
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        [self.sampleTextView setAttributedText:attributedString];
-//                    });
-//                    
-//                }
-//                NSLog(@"\n%@\n%@",description,paragraphFont);
-//                
-//            }
-//        }];
-//    });
-
-    
-//    [_textStorage replaceCharactersInRange:NSMakeRange(0, 0) withString:mediumText];
-    
-    
+   
 }
 -(void)scrollWithParaIdentifer:(NSString *)paraIdentifer{
     CGFloat offset = [self.sampleTextView.paraMarkManager getParaOriginYWithIdentifer:paraIdentifer];
-    
+//    self.sampleTextView
     [self.sampleTextView scrollRectToVisible:CGRectMake(0, offset - self.sampleTextView.frame.size.height/3, self.sampleTextView.frame.size.width, self.sampleTextView.frame.size.height)
                                     animated:YES];
+    //高亮正在跳转的段落
+    NSRange textRange = [self.sampleTextView.paraMarkManager getParaLocationRangeWithIdentifer:paraIdentifer];
+    [self.sampleTextView updateTextAttributeAtRange:textRange andAttribute:[self highlightTextAttribute]];
 }
-//- (void)setUpTextViewWithArticleInfo:(NSDictionary *)info{
-//
-//    NSString *mediumText = @"";
-//    NSArray *articleParagraphs = info[@"results"][@"articleParagraph"];
-//    NSMutableArray *titleRanges = [NSMutableArray array];
-//    NSMutableArray *textRanges = [NSMutableArray array];
-//    for (int i = 0; i < articleParagraphs.count; i++) {
-//        NSString *paragraphMark = [[articleParagraphs objectAtIndex:i] objectForKey:@"paragraphMark"];
-//        NSString *paragraphText = [[articleParagraphs objectAtIndex:i] objectForKey:@"paragraphText"];
-//        if (![paragraphMark isEqualToString:@"p"]) {
-//            NSRange titleRange = NSMakeRange(mediumText.length, paragraphText.length+1);
-//            [titleRanges addObject:[NSValue valueWithRange:titleRange]];
-//        }else{
-//            NSRange textRange = NSMakeRange(mediumText.length, paragraphText.length+1);
-//            [textRanges addObject:[NSValue valueWithRange:textRange]];
-//        }
-//        mediumText = [mediumText stringByAppendingString:[NSString stringWithFormat:@"%@\n",paragraphText]];
-//    }
-//    [_textStorage replaceCharactersInRange:NSMakeRange(0, 0) withString:mediumText];
-//    for (NSValue *rangeObject in titleRanges) {
-//        NSRange range = [rangeObject rangeValue];
-//        [_textStorage setAttributes:[self titleStyleDict] range:range];
-//
-//    }
-//    for (NSValue *rangeObject in textRanges) {
-//        NSRange range = [rangeObject rangeValue];
-//        [_textStorage setAttributes:[self textStyleDict] range:range];
-//    }
-//}
+
+-(NSDictionary *)highlightTextAttribute{
+//    [tmpAttributedString addAttribute:NSBackgroundColorAttributeName value:[UIColor redColor] range:textRange];
+    NSDictionary *highlightAttribute = @{NSBackgroundColorAttributeName: rgb(236, 241, 255)};
+    return highlightAttribute;
+}
 
 -(NSMutableAttributedString *)htmlAttributeString{
     if (!_htmlAttributeString) {
@@ -290,75 +241,14 @@
     return _htmlAttributeString;
 }
 
-//- (NSDictionary *)titleStyleDict {
-//
-//
-//    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-//
-//    UIColor *textColor = [UIColor blackColor];
-//    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
-//    [attributes setValue:[UIColor redColor] forKey:NSBackgroundColorAttributeName];
-//    UIFont *textFont = [UIFont boldSystemFontOfSize:30.f];
-//    [attributes setValue:textFont forKey:NSFontAttributeName];
-//    [attributes setValue:@-30 forKey:NSBaselineOffsetAttributeName];
-//    //创建段落样式
-//    [attributes setValue:[self style] forKey:NSParagraphStyleAttributeName];
-//
-//    return attributes;
-//}
-//
-//- (NSDictionary *)textStyleDict {
-//
-//    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
-//
-//    UIColor *textColor = [UIColor blackColor];
-//    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
-//    [attributes setValue:[UIColor greenColor] forKey:NSBackgroundColorAttributeName];
-//    UIFont *textFont = [UIFont systemFontOfSize:16.f];
-//    [attributes setValue:textFont forKey:NSFontAttributeName];
-//    [attributes setValue:@-15 forKey:NSBaselineOffsetAttributeName];
-//
-//    [attributes setValue:[self style] forKey:NSParagraphStyleAttributeName];
-//
-//    return attributes;
-//}
+
 -(NSMutableDictionary *)picIdentiferInfo{
     if (!_picIdentiferInfo) {
         _picIdentiferInfo = [NSMutableDictionary dictionary];
     }
     return _picIdentiferInfo;
 }
-//- (NSMutableParagraphStyle *)style {
-//
-//    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-//
-//    style.lineSpacing = 8.5f;
-//    style.paragraphSpacing = 25.f;
-//    style.firstLineHeadIndent = 0.f;
-//
-//    return style;
-//}
-//
-//- (NSTextContainer *)container{
-//    if (!_container) {
-//        _container = [NSTextContainer new];
-//
-//        _layoutManager = [NSLayoutManager new];
-//        _layoutManager.delegate = self;
-//        [_layoutManager addTextContainer:_container];
-//
-//        _textStorage = [TKSTextStorage new];
-//        [_textStorage addLayoutManager:_layoutManager];
-//    }
-//    return _container;
-//}
-//
-//-(void)layoutManager:(NSLayoutManager *)layoutManager didCompleteLayoutForTextContainer:(NSTextContainer *)textContainer atEnd:(BOOL)layoutFinishedFlag{
-//    //This is only for first Glyph
-//    CGRect lineFragmentRect = [layoutManager lineFragmentUsedRectForGlyphAtIndex:0 effectiveRange:nil];
-//    NSLog(@"Line Height:%f",lineFragmentRect.size.height);
-//    // The height of this rect is the line height.
-//}
+
 
 #pragma mark - DTLazyImageViewDelegate
 - (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView

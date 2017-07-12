@@ -137,6 +137,33 @@
     return attributes;
 }
 
+
++ (NSDictionary *)refreshControlTextAttributeInfo {
+    
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgb(74, 144, 226);
+    //    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont refreshControlFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    [attributes setValue:[self refreshControlTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
++ (NSMutableParagraphStyle *)refreshControlTextStyle {
+    
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    
+    style.lineSpacing = 3.0f;
+    style.paragraphSpacing = 0.f;
+    style.firstLineHeadIndent = 0.f;
+    style.alignment = NSTextAlignmentCenter;
+    return style;
+}
 + (NSMutableParagraphStyle *)articleDiscussPointQuotePositionLabelTextStyle {
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];

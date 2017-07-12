@@ -108,7 +108,7 @@
     [self.lblResponseText setAttributedText:attrString];
 }
 -(void)setParaIdentifer:(NSString *)paraIdentifer{
-    self.paraIdentifer = paraIdentifer;
+    _paraIdentifer = paraIdentifer;
 }
 #pragma mark - getter and setter
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

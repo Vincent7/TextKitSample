@@ -23,4 +23,5 @@
 +(UIFont *)articleDiscussPointResponseTextFont;
 +(UIFont *)articleDiscussPointQuotePositionLabelFont;
 
++(UIFont *)refreshControlFont;
 @end

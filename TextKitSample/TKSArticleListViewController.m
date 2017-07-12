@@ -10,12 +10,13 @@
 
 #import "TKSBaseRequestEngine.h"
 
-#import "CBStoreHouseRefreshControl.h"
+//#import "CBStoreHouseRefreshControl.h"
 
 #import "TKSBaseArrayWithLoadMoreItemDataSource.h"
 #import "TKSArticleListTableViewCell.h"
 #import "TKSArticleDetailViewController.h"
 #import "TKSArticleResponseListAndDetailViewController.h"
+#import "TKSTextParagraphAttributeManager.h"
 @interface TKSArticleListViewController () <TKSBaseRequestEngineDelegate,UITableViewDelegate>
 
 //@property (nonatomic, strong) NSTextContainer *container;
@@ -26,11 +27,13 @@
 
 @property (nonatomic, strong) UITableView *articleListTableView;
 
-@property (nonatomic, strong) CBStoreHouseRefreshControl *storeHouseRefreshControl;
-
-@property (nonatomic, strong) TKSBaseArrayWithLoadMoreItemDataSource *articleListDataSource;
+@property (nonatomic, strong) TKSBaseArrayDataSource *articleListDataSource;
 
 @property (nonatomic, strong) NSArray *arrArticleDataSource;
+
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
+
+@property (nonatomic, strong) NSMutableArray *arrShownIndexes;
 @end
 
 @implementation TKSArticleListViewController
@@ -38,8 +41,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSDictionary *params = @{@"page": @"1"};
+
     self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleListPath] param:params requestType:GET];
     [self.view addSubview:self.articleListTableView];
+    
+    [self.articleListTableView addSubview:self.refreshControl];
+    [self.articleListTableView sendSubviewToBack:self.refreshControl];
     
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:0.1 alpha:1];
@@ -69,10 +76,18 @@
         make.top.equalTo(@0);
         make.bottom.equalTo(@0);
     }];
+    
+    
+    
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    
+    [UIView animateWithDuration:0.2 animations:^{
+        self.navigationController.navigationBar.frame = CGRectMake(self.navigationController.navigationBar.frame.origin.x,
+                                                                   [UIApplication sharedApplication].statusBarFrame.size.height,
+                                                                   self.navigationController.navigationBar.frame.size.width,
+                                                                   self.navigationController.navigationBar.frame.size.height);
+    }];
 //    [self.articleListTableView scrollRectToVisible:CGRectMake(0, 300, SCREEN_WIDTH, SCREENH_HEIGHT) animated:YES];
 }
 - (void)didReceiveMemoryWarning {
@@ -80,30 +95,33 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Notifying refresh control of scrolling
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    [self.storeHouseRefreshControl scrollViewDidScroll];
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    [self.storeHouseRefreshControl scrollViewDidEndDragging];
-}
+//#pragma mark - Notifying refresh control of scrolling
+//
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    [self.storeHouseRefreshControl scrollViewDidScroll];
+//}
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    [self.storeHouseRefreshControl scrollViewDidEndDragging];
+//}
 
 #pragma mark - Listening for the user to trigger a refresh
 
 - (void)refreshTriggered:(id)sender
 {
+    [self.refreshControl beginRefreshing];
     NSDictionary *params = @{@"page": @"1"};
     self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleListPath] param:params requestType:GET];
+    
 //    [self performSelector:@selector(finishRefreshControl) withObject:nil afterDelay:3 inModes:@[NSRunLoopCommonModes]];
 }
 
 - (void)finishRefreshControl
 {
-    [self.storeHouseRefreshControl finishingLoading];
+    [self.refreshControl endRefreshing];
+//    [self.storeHouseRefreshControl finishingLoading];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle
@@ -119,7 +137,27 @@
     
     [self.navigationController pushViewController:vc animated:YES];
 }
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (![self.arrShownIndexes containsObject:indexPath]) {
+        [self.arrShownIndexes addObject:indexPath];
+        cell.transform = CGAffineTransformMakeTranslation(0.f, cell.frame.size.height);
+        cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+        cell.layer.shadowOffset = CGSizeMake(10, 10);
+        cell.alpha = 0;
+        
+        //2. Define the final state (After the animation) and commit the animation
+        [UIView beginAnimations:@"rotation" context:NULL];
+        [UIView setAnimationDuration:0.2];
+        cell.transform = CGAffineTransformMakeTranslation(0.f, 0);
+        cell.alpha = 1;
+        cell.layer.shadowOffset = CGSizeMake(0, 0);
+        [UIView commitAnimations];
+        // Your animation code here.
+    }
+    
+}
 #pragma mark - getter and setter
+
 -(UITableView *)articleListTableView{
     if (!_articleListTableView) {
         _articleListTableView = [[UITableView alloc] init];
@@ -139,25 +177,33 @@
     }
     return _articleListTableView;
 }
-
--(CBStoreHouseRefreshControl *)storeHouseRefreshControl{
-    if (!_storeHouseRefreshControl) {
-        _storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.articleListTableView target:self refreshAction:@selector(refreshTriggered:) plist:@"AKTA" color:[UIColor whiteColor] lineWidth:2 dropHeight:80 scale:0.7 horizontalRandomness:300 reverseLoadingAnimation:NO internalAnimationFactor:0.7];
+-(UIRefreshControl *)refreshControl{
+    if (!_refreshControl) {
+        _refreshControl = [UIRefreshControl new];
+        NSAttributedString *loadingAttrString = [[NSAttributedString alloc]initWithString:@"Loading" attributes:[TKSTextParagraphAttributeManager refreshControlTextAttributeInfo]];
+        [_refreshControl setAttributedTitle:loadingAttrString];
+        [_refreshControl addTarget:self action:@selector(refreshTriggered:) forControlEvents:UIControlEventValueChanged];
     }
-    return _storeHouseRefreshControl;
+    return _refreshControl;
 }
+//-(CBStoreHouseRefreshControl *)storeHouseRefreshControl{
+//    if (!_storeHouseRefreshControl) {
+//        _storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.articleListTableView target:self refreshAction:@selector(refreshTriggered:) plist:@"AKTA" color:[UIColor whiteColor] lineWidth:2 dropHeight:80 scale:0.7 horizontalRandomness:300 reverseLoadingAnimation:NO internalAnimationFactor:0.7];
+//    }
+//    return _storeHouseRefreshControl;
+//}
 -(NSArray *)sampleArray{
     return @[];
 }
--(TKSBaseArrayWithLoadMoreItemDataSource *)articleListDataSource{
+-(TKSBaseArrayDataSource *)articleListDataSource{
     if (!_articleListDataSource) {
         
-        _articleListDataSource = [[TKSBaseArrayWithLoadMoreItemDataSource alloc]initWithArray:[self sampleArray] cellReuseIdentifier:NSStringFromClass([TKSArticleListTableViewCell class]) configureCellBlock:^(id cell, id item) {
+        _articleListDataSource = [[TKSBaseArrayDataSource alloc]initWithArray:[self sampleArray] cellReuseIdentifier:NSStringFromClass([TKSArticleListTableViewCell class]) configureCellBlock:^(id cell, id item) {
             TKSArticleListTableViewCell *articleCell = (TKSArticleListTableViewCell*)cell;
 //            NSString *articleId = @"";
             NSString *title = @"";
             NSArray *arrSubtitle;
-            NSArray *arrPreviewImageUrls;
+            NSArray *arrPreviewImageInfos;
 //            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"id"] isEqual:[NSNull null]] &&[item objectForKey:@"id"]) {
 //                articleId = [item objectForKey:@"id"];
 //            }
@@ -167,8 +213,8 @@
             if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"article_title"] isEqual:[NSNull null]] && [item objectForKey:@"article_title"]) {
                 title = [item objectForKey:@"article_title"];
             }
-            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"article_preview_images"] isEqual:[NSNull null]] &&[item objectForKey:@"article_preview_images"]) {
-                arrPreviewImageUrls = [item objectForKey:@"article_preview_images"];
+            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"article_preview_images_list"] isEqual:[NSNull null]] &&[item objectForKey:@"article_preview_images_list"]) {
+                arrPreviewImageInfos = [item objectForKey:@"article_preview_images_list"];
             }
             NSString *subtitle = @"";
             for (NSDictionary *textInfo in arrSubtitle) {
@@ -176,6 +222,17 @@
             }
             [articleCell setArticleTitleText:title];
             [articleCell setArticleSubtitleText:subtitle];
+            NSArray *arrImageUrls;
+            CGFloat imageDataWidth = 0;
+            CGFloat imageDataHeight = 0;
+            if (arrPreviewImageInfos && arrPreviewImageInfos.count > 0) {
+                NSDictionary *previewImageUrlsInfo = arrPreviewImageInfos.firstObject;
+                imageDataHeight = [[previewImageUrlsInfo objectForKey:@"preview_image_height"] floatValue];
+                imageDataWidth = [[previewImageUrlsInfo objectForKey:@"preview_image_width"] floatValue];
+                arrImageUrls = [previewImageUrlsInfo objectForKey:@"article_preview_image_urls_list"];
+                
+            }
+            [articleCell setImageUrls:arrImageUrls andImageDataSize:CGSizeMake(imageDataWidth, imageDataHeight)];
 //            [articleCell.lblArticleTitle setText:[NSString stringWithFormat:@"%ld",[item integerValue]]];
 //            [articleCell.lblArticleBriefText setText:[self stringWithLineNumber:[self getRandomNumberBetween:1 and:5]]];
         }];
@@ -188,6 +245,12 @@
         _arrArticleDataSource = [NSArray array];
     }
     return _arrArticleDataSource;
+}
+-(NSMutableArray *)arrShownIndexes{
+    if (!_arrShownIndexes) {
+        _arrShownIndexes = [NSMutableArray array];
+    }
+    return _arrShownIndexes;
 }
 //- (void)setUpTextViewWithArticleInfo:(NSDictionary *)info{
 //    

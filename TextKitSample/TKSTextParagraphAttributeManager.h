@@ -15,4 +15,6 @@
 + (NSDictionary *)articleDiscussPointResponseTextAttributeInfo;
 + (NSDictionary *)articleDiscussPointQuoteTextAttributeInfo;
 + (NSDictionary *)articleDiscussPointQuotePositionLabelTextAttributeInfo;
+
++ (NSDictionary *)refreshControlTextAttributeInfo;
 @end

@@ -58,5 +58,7 @@
 +(UIFont *)articleDiscussPointQuotePositionLabelFont{
     return [UIFont articleDiscussPointResponseTextOfSize:18];
 }
-
++(UIFont *)refreshControlFont{
+    return [UIFont systemFontOfSize:12 weight:UIFontWeightLight];
+}
 @end
