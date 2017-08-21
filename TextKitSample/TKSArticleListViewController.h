@@ -6,9 +6,9 @@
 //  Copyright © 2017年 Vincent. All rights reserved.
 //
 
-#import "TKSBaseNetworkViewController.h"
+#import "TKSBasePaginateRequestNetworkViewController.h"
 
-@interface TKSArticleListViewController : TKSBaseNetworkViewController
+@interface TKSArticleListViewController : TKSBasePaginateRequestNetworkViewController
 
 
 @end

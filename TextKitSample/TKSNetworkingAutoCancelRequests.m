@@ -39,4 +39,10 @@
         [self.requestEngines removeObjectForKey:requestID];
     }
 }
+#pragma mark - TKSBaseRequestEngineDelegate
+-(void)engine:(TKSBaseRequestEngine *)engine didRequestFinishedWithData:(id)data andError:(NSError *)error andTag:(NSString *)tag{
+    //TODO: 列表类请求代码整理
+
+    
+}
 @end

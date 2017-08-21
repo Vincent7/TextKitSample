@@ -16,6 +16,7 @@
 #import <Masonry.h>
 #import "JPFPSStatus.h"
 #import "UIFont+TKSFontDefine.h"
+#import "UIColor+TKSColorScheme.h"
 #endif
 
 #import "CommonMarco.h"

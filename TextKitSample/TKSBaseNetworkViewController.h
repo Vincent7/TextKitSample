@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "TKSNetworkingAutoCancelRequests.h"
-//#import "TKSBaseRequestEngine.h"
+#import "TKSBaseRequestEngine.h"
 #import <Masonry.h>
 #import "TKSNetworkingRequestPathManager.h"
+
+
 @interface TKSBaseNetworkViewController : UIViewController
-@property(nonatomic, strong, readonly) TKSNetworkingAutoCancelRequests *networkingAutoCancelRequests;
+//@property(nonatomic, strong, readonly) TKSNetworkingAutoCancelRequests *networkingAutoCancelRequests;
+
 @end

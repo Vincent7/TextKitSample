@@ -14,4 +14,5 @@ target 'TextKitSample' do
 #    pod 'DTCoreText'
 #     pod 'DTCoreText' , :git=> "https://github.com/Vincent7/DTCoreText.git"
     pod 'DTCoreText' , :path => '/Users/Vincent/Code/DTCoreText'
+    pod 'ODRefreshControl'
 end

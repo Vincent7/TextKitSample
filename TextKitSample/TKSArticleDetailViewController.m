@@ -13,7 +13,9 @@
 #import <AVKit/AVKit.h>
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
-@interface TKSArticleDetailViewController () <NSLayoutManagerDelegate,DTAttributedTextContentViewDelegate, DTLazyImageViewDelegate>
+#import "TKSArticleDetailTitlePreviewView.h"
+//#import "UIColor+TKSColorScheme.h"
+@interface TKSArticleDetailViewController () <NSLayoutManagerDelegate,DTAttributedTextContentViewDelegate, DTLazyImageViewDelegate,UIScrollViewDelegate>
 //@property (nonatomic, strong) NSTextContainer *container;
 //@property (nonatomic, strong) NSLayoutManager *layoutManager;
 //@property (nonatomic, strong) TKSTextStorage *textStorage;
@@ -24,23 +26,27 @@
 @property (nonatomic, strong) NSMutableDictionary *picIdentiferInfo;
 @property (nonatomic, strong) NSMutableDictionary *mediaPlayers;
 
-@property (nonatomic, strong) UIView *detailArticleTitleContainer;
+@property (nonatomic, strong) TKSArticleDetailTitlePreviewView *detailArticleTitleContainer;
+
+@property (nonatomic, assign) BOOL lockScrollViewInterface;
 @end
 
 @implementation TKSArticleDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.lockScrollViewInterface = NO;
+    
     [self.view addSubview:self.sampleTextView];
     [self.view addSubview:self.detailArticleTitleContainer];
     [self.detailArticleTitleContainer mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(@0);
         make.left.mas_equalTo(@0);
         make.right.mas_equalTo(self.view.mas_right);
-        make.height.mas_equalTo(@44);
+        make.height.mas_equalTo(@64);
     }];
     [self.sampleTextView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(44, 0, 0, 0));
+        make.edges.mas_equalTo(UIEdgeInsetsMake(64, 0, 0, 0));
     }];
     // Do any additional setup after loading the view.
 }
@@ -53,14 +59,6 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    NSUserDefaults *frameSize = [NSUserDefaults standardUserDefaults];
-    //Put frame size into defaults
-    
-    NSData *barFrameData = [frameSize objectForKey:@"frame"];
-    NSValue *barFrameValue = [NSKeyedUnarchiver unarchiveObjectWithData:barFrameData];
-    CGRect barFrame = [barFrameValue CGRectValue];
-    
-    self.navigationController.navigationBar.frame = barFrame;
 //    [self.sampleTextView relayoutText];
 }
 - (void)didReceiveMemoryWarning {
@@ -69,16 +67,32 @@
 }
 
 #pragma mark - setter and getter
+-(void)setExpendAnimProgress:(CGFloat)expendAnimProgress{
+    _expendAnimProgress = expendAnimProgress;
+    self.detailArticleTitleContainer.expendAnimProgress = expendAnimProgress;
+}
+-(void)setArticleTitle:(NSString *)articleTitle{
+    if (![_articleTitle isEqualToString:articleTitle]) {
+        _articleTitle = articleTitle;
+        self.detailArticleTitleContainer.articleTitle = _articleTitle;
+    }
+}
+-(UIView *)titleContainer{
+    return self.detailArticleTitleContainer;
+}
 - (void)setHtmlContentString:(NSString *)htmlContentString{
     _htmlContentString = htmlContentString;
     
 }
--(UIView *)detailArticleTitleContainer{
+-(TKSArticleDetailTitlePreviewView *)detailArticleTitleContainer{
     if (!_detailArticleTitleContainer) {
-        _detailArticleTitleContainer = [[UIView alloc] init];
-        _detailArticleTitleContainer.backgroundColor = [UIColor greenColor];
+        _detailArticleTitleContainer = [[TKSArticleDetailTitlePreviewView alloc] init];
+        
     }
     return _detailArticleTitleContainer;
+}
+-(VJResponderChangeableScrollView *)scrollView{
+    return _sampleTextView;
 }
 -(DTAttributedTextView *)sampleTextView{
     if (!_sampleTextView) {
@@ -86,6 +100,8 @@
         _sampleTextView.shouldDrawLinks = YES;
         _sampleTextView.shouldDrawImages = YES;
         _sampleTextView.textDelegate = self;
+        _sampleTextView.delegate = self;
+        _sampleTextView.bounces = NO;
     }
     return _sampleTextView;
 }
@@ -349,6 +365,45 @@
     
     return _mediaPlayers;
 }
+
+#pragma UIScrollViewDelegate Method
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    CGFloat offset = scrollView.contentOffset.y;
+//    if (scrollView.isDragging) {
+//        if (offset <= 0) {
+//            NSLog(@"NO");
+//            scrollView.scrollEnabled = NO;
+//        }else{
+//            NSLog(@"YES");
+//            scrollView.scrollEnabled = YES;
+//        }
+//    }else{
+//        NSLog(@"YES");
+//        scrollView.scrollEnabled = YES;
+//    }
+    
+//    
+//    if (scrollView.isDragging) {
+//        self.lockScrollViewInterface = !(offset > 0);
+//        scrollView.bounces = !self.lockScrollViewInterface;
+//        [scrollView setUserInteractionEnabled:!self.lockScrollViewInterface];
+//    }
+    
+    
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+//    NSLog(@"YES");
+//    scrollView.scrollEnabled = YES;
+//    self.lockScrollViewInterface = NO;
+//    [scrollView setUserInteractionEnabled:!self.lockScrollViewInterface];
+
+}
+
+
 /*
 #pragma mark - Navigation
 

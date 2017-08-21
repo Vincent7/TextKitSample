@@ -45,4 +45,9 @@
     return cell;
 }
 
+-(void)updateRowDataItem:(id)item atIndexPath:(NSIndexPath *)indexPath{
+    NSMutableArray *mutableDataList = [NSMutableArray arrayWithArray:self.items];
+    [mutableDataList replaceObjectAtIndex:indexPath.row withObject:item];
+    self.items = mutableDataList;
+}
 @end

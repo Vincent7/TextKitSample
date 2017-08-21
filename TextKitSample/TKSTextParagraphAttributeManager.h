@@ -17,4 +17,22 @@
 + (NSDictionary *)articleDiscussPointQuotePositionLabelTextAttributeInfo;
 
 + (NSDictionary *)refreshControlTextAttributeInfo;
+
+/**
+ Discuss points and response notes list quote text on QuoteSectionHeader
+
+ @return QuoteSectionHeader quote text attribute
+ */
++ (NSDictionary *)articleQuoteTextAttributeInfo;
++ (NSDictionary *)articleQuoteReadInArticleAttributeInfo;
++ (NSDictionary *)articleQuoteAddNoteAttributeInfo;
++ (NSDictionary *)articleDiscussPointResponseUserNameAttributeInfo;
++ (NSDictionary *)articleDiscussPointResponseReadingTimeAttributeInfo;
+
++ (NSDictionary *)articleDiscussPointResponseHintTitleStringAttributeInfo;
++ (NSDictionary *)articleDiscussPointResponseNavigationBarTitleAttributeInfo;
+
++ (NSDictionary *)articleDiscussPointResponseFavButtonDiselectedAttributeInfo;
++ (NSDictionary *)articleDiscussPointResponseFavButtonSelectedAttributeInfo;
++ (NSDictionary *)articleDisscussPointSeeMoreFooterTitleAttributeInfo;
 @end

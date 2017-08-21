@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-@class TKSBaseRequestEngine;
-@interface TKSNetworkingAutoCancelRequests : NSObject
+#import "TKSBaseRequestEngine.h"
+@interface TKSNetworkingAutoCancelRequests : NSObject <TKSBaseRequestEngineDelegate>
 - (void)setEngine:(TKSBaseRequestEngine *)engine requestID:(NSNumber *)requestID;
 - (void)removeEngineWithRequestID:(NSNumber *)requestID;
 @end

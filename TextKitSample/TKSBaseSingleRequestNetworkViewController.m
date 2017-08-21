@@ -1,26 +1,21 @@
 //
-//  TKSBaseNetworkViewController.m
+//  TKSBaseSingleRequestNetworkViewController.m
 //  TextKitSample
 //
-//  Created by Vincent on 2017/5/2.
+//  Created by Vincent on 2017/7/18.
 //  Copyright © 2017年 Vincent. All rights reserved.
 //
 
-#import "TKSBaseNetworkViewController.h"
-#import <objc/runtime.h>
-@interface TKSBaseNetworkViewController ()
+#import "TKSBaseSingleRequestNetworkViewController.h"
 
+@interface TKSBaseSingleRequestNetworkViewController ()
 
 @end
 
-@implementation TKSBaseNetworkViewController
--(void)dealloc{
-    
-}
+@implementation TKSBaseSingleRequestNetworkViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Do any additional setup after loading the view.
 }
 
@@ -29,6 +24,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - TKSSingleRequestsManagerDelegate
+
+-(void)didRequestFinishedWithDataResult:(NSDictionary *)dataInfo andError:(NSError *)error{
+    
+}
+
+#pragma getter and setter
+-(TKSSingleRequestsManager *)requestManager{
+    if (!_requestManager) {
+        _requestManager = [TKSSingleRequestsManager new];
+    }
+    return _requestManager;
+}
 /*
 #pragma mark - Navigation
 
@@ -38,6 +46,5 @@
     // Pass the selected object to the new view controller.
 }
 */
-
 
 @end

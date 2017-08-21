@@ -6,8 +6,9 @@
 //  Copyright © 2017年 Vincent. All rights reserved.
 //
 
-#import "TKSBaseNetworkViewController.h"
+#import "TKSBaseSingleRequestNetworkViewController.h"
 
-@interface TKSArticleResponseListAndDetailViewController : TKSBaseNetworkViewController
+@interface TKSArticleResponseListAndDetailViewController : TKSBaseSingleRequestNetworkViewController
 @property (nonatomic, copy) NSString *articleId;
+@property (nonatomic, copy) NSString *articleTitle;
 @end

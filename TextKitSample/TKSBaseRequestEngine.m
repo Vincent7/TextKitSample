@@ -11,6 +11,8 @@
 #import "NSObject+TKSNetworkingAutoCancelRequests.h"
 @interface TKSBaseRequestEngine()
 @property (nonatomic, strong) NSNumber *requestID;
+@property (nonatomic, strong) TKSBaseRequestModel *requestModel;
+@property (nonatomic, weak) NSObject <TKSBaseRequestEngineDelegate>* control;
 @end
 
 @implementation TKSBaseRequestEngine
@@ -29,7 +31,7 @@
     __block TKSBaseRequestEngine *requestEngine = [[TKSBaseRequestEngine alloc]init];
     requestEngine.delegate = requestControl;
 
-    TKSBaseRequestModel *dataModel = [requestEngine dataModelWithPath:path param:parameters requestType:requestType uploadProgressBlock:^(NSProgress *taskProgress) {
+    requestEngine.requestModel = [requestEngine dataModelWithPath:path param:parameters requestType:requestType uploadProgressBlock:^(NSProgress *taskProgress) {
         if ([requestControl respondsToSelector:@selector(engine:uploadRequestProgressCallback:)]) {
             [requestControl engine:requestEngine uploadRequestProgressCallback:taskProgress];
         }
@@ -38,12 +40,14 @@
             [requestControl engine:requestEngine downloadRequestProgressCallback:taskProgress];
         }
     } complete:^(id data, NSError *error) {
-        if ([requestControl respondsToSelector:@selector(engine:didRequestFinishedWithData:andError:)]) {
-            [requestControl engine:requestEngine didRequestFinishedWithData:data andError:error];
+        if ([requestControl respondsToSelector:@selector(engine:didRequestFinishedWithData:andError:andTag:)]) {
+            requestEngine.isRequesting = NO;
+            NSString *tag = [data objectForKey:@"tag"];
+            [requestControl engine:requestEngine didRequestFinishedWithData:data andError:error andTag:tag];
         }
 //        [weakControl.networkingAutoCancelRequests removeEngineWithRequestID:engine.requestID];
     }];
-    [requestEngine callRequestWithRequestModel:dataModel requestControl:requestControl];
+//    [requestEngine callRequestWithRequestModel:dataModel requestControl:requestControl];
     return requestEngine;
 }
 
@@ -64,10 +68,17 @@
     dataModel.responseCallback = responseBlock;
     return dataModel;
 }
-
+- (void)callRequest;{
+    [self callRequestWithRequestModel:self.requestModel requestControl:self.control];
+}
 - (void)callRequestWithRequestModel:(TKSBaseRequestModel *)dataModel requestControl:(NSObject *)control{
     self.requestID = [[TKSNetworkingAPIRequestManager sharedInstance] callRequestWithRequestModel:dataModel];
+    self.isRequesting = YES;
     [control.networkingAutoCancelRequests setEngine:self requestID:self.requestID];
+}
+
+-(NSNumber *)requestIdentifer{
+    return self.requestID;
 }
 #pragma mark - getters and setters
 @end

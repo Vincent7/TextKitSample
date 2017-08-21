@@ -7,27 +7,29 @@
 //
 
 #import "TKSArticleResponseListAndDetailViewController.h"
-#import "TKSBaseRequestEngine.h"
 
-#import "TKSBaseArrayWithLoadMoreItemDataSource.h"
-#import "TKSArticleResponseTableViewCell.h"
+#import "TKSBaseSectionListDataSource.h"
+#import "TKSArticleResponseListDataObject.h"
+
+#import "TKSArticleUserResponsesTableViewCell.h"
+#import "TKSArticleResponseQuoteTextSectionView.h"
+#import "TKSArticleResponseQuoteFooterSectionView.h"
 
 #import "TKSArticleDetailViewController.h"
 #import "TKSTextParagraphAttributeManager.h"
+
+#import "TKSSingleRequestsManager.h"
 
 typedef enum : NSUInteger {
     barCollapsed,
     barExpanded,
     barScrolling,
 } TKSScrollableNavigationBarState;
-@interface TKSArticleResponseListAndDetailViewController () <UITableViewDelegate,TKSBaseRequestEngineDelegate,UICollisionBehaviorDelegate>
+@interface TKSArticleResponseListAndDetailViewController () <UITableViewDelegate,TKSBaseRequestEngineDelegate,UICollisionBehaviorDelegate,TKSSingleRequestsManagerDelegate,TKSArticleResponseQuoteFooterSectionViewDelegate>
 @property (nonatomic, strong) UITableView *articleResponseListTableView;
-@property (nonatomic, strong) NSArray *arrArticleDiscussPointDataSource;
-@property (nonatomic, strong) TKSBaseArrayWithLoadMoreItemDataSource *articleDisscussDataSource;
+@property (nonatomic, strong) NSArray <TKSArticleResponseListDataObject *>*arrArticleDiscussPointDataSource;
+@property (nonatomic, strong) TKSBaseSectionListDataSource *articleDisscussDataSource;
 
-@property (nonatomic, strong) TKSBaseRequestEngine *requestEngine;
-
-@property (nonatomic, strong) NSString *articleHtmlContent;
 @property (nonatomic, strong) TKSArticleDetailViewController *articleDetailContentViewController;
 @property (nonatomic, strong) UINavigationController *articleDetailContentNavController;
 //@property (nonatomic, strong) UIView *sampleView;
@@ -39,8 +41,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) UIDynamicAnimator* animator;
 @property (nonatomic, strong) UIDynamicItemBehavior *itemBehavior;
-@property (nonatomic, strong) UIGravityBehavior* gravityBeahvior;
 @property (nonatomic, strong) UIAttachmentBehavior* attachmentBehavior;
+@property (nonatomic, strong) UIPushBehavior* pushBehavior;
 @property (nonatomic, strong) UICollisionBehavior* topCollisionBehavior;
 @property (nonatomic, strong) UICollisionBehavior* bottomCollisionBehavior;
 
@@ -55,28 +57,25 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @property (nonatomic, strong) NSMutableArray *arrShownIndexes;
+@property (nonatomic, assign) NSInteger gestureState;
+
+//@property (nonatomic, strong) NSAttributedString *navigationBarTitle;
 @end
 #define GRAVITYCOEFFICIENT 1.0
 @implementation TKSArticleResponseListAndDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    NSDictionary *params = @{@"page": @"1"};
-    self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleDetailPathWithArticleId:self.articleId] param:nil requestType:GET];
+
     [self.view addSubview:self.articleResponseListTableView];
     
     [self.articleResponseListTableView addSubview:self.refreshControl];
     [self.articleResponseListTableView sendSubviewToBack:self.refreshControl];
     
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:0.1 alpha:1];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-    
-//    [self.view addSubview:self.articleDetailContentNavController.view];
-//    [self addChildViewController:self.articleDetailContentNavController];//  2
-//    [self.articleDetailContentNavController didMoveToParentViewController:self];
-//    
-//    [self.articleDetailContentViewController.view addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew context:nil];
+    self.requestManager = [TKSSingleRequestsManager new];
+    self.requestManager.delegate = self;
+    self.requestManager.loadRequestPathString = [TKSNetworkingRequestPathManager articleDetailPathWithArticleId:self.articleId];
+    [self refreshTriggered:nil];
     
     [self.view addSubview:self.articleDetailContentViewController.view];
     [self addChildViewController:self.articleDetailContentViewController];//  2
@@ -85,14 +84,13 @@ typedef enum : NSUInteger {
     [self.articleDetailContentViewController.view addObserver:self forKeyPath:@"center" options:NSKeyValueObservingOptionNew context:nil];
 
     self.lastAnchorPoint = CGPointZero;
-//    [self.view addSubview:self.sampleView];
     
-    [self.articleDetailContentViewController.view setFrame:CGRectMake(0, SCREENH_HEIGHT - [self navBarFrameHeight] - 1, SCREEN_WIDTH, SCREENH_HEIGHT - [self statusBarFrameHeight])];
+    [self.articleDetailContentViewController.view setFrame:CGRectMake(0, SCREENH_HEIGHT - [self navBarFrameHeight] - .5, SCREEN_WIDTH, SCREENH_HEIGHT)];
     
     self.articleState = barCollapsed;
     
     self.animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.view];
-    //    [self.animator setValue:@(TRUE) forKey:@"debugEnabled"];
+//    [self.animator setValue:@(TRUE) forKey:@"debugEnabled"];
     [self.animator addBehavior:self.topCollisionBehavior];
     [self.animator addBehavior:self.bottomCollisionBehavior];
     [self.animator addBehavior:self.itemBehavior];
@@ -102,7 +100,10 @@ typedef enum : NSUInteger {
     //    [self.animator addBehavior:self.bottomFieldBehavior];
     
     [self prepareGestureRecognizerInView:self.articleDetailContentViewController.view];
-    //    [self.animator addBehavior:self.snapBeahvior];
+    
+    self.articleDetailContentViewController.articleTitle = self.articleTitle;
+    [self.navigationItem setTitle:self.articleTitle];
+    [self.navigationController.navigationBar setTitleTextAttributes:[TKSTextParagraphAttributeManager articleDiscussPointResponseNavigationBarTitleAttributeInfo]];
     // Do any additional setup after loading the view.
 }
 -(void)dealloc{
@@ -118,7 +119,7 @@ typedef enum : NSUInteger {
         make.left.equalTo(@0);
         make.right.equalTo(@0);
         make.top.equalTo(@0);
-        make.bottom.equalTo(@-44);
+        make.bottom.equalTo(@-64);
     }];
     
 }
@@ -129,16 +130,23 @@ typedef enum : NSUInteger {
 -(void)setShouldExpandState:(BOOL)shouldExpandState{
     
     _shouldExpandState = shouldExpandState;
+//    CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"zPosition"];
+//    anim.fromValue = [NSNumber numberWithFloat:!shouldExpandState?-1:0];
+//    anim.toValue = [NSNumber numberWithFloat:shouldExpandState?-1:0];
+//    anim.duration = 0.1;
+//    [self.navigationController.navigationBar.layer addAnimation:anim forKey:@"zPosition"];
+//    self.navigationController.navigationBar.layer.zPosition = shouldExpandState?-1:0;
     
-    NSUserDefaults *frameSize = [NSUserDefaults standardUserDefaults];
-    //Put frame size into defaults
-    CGRect navBarframe = CGRectMake(self.navigationController.navigationBar.frame.origin.x,
-                                    (shouldExpandState?-23.5:20),
-                                    self.navigationController.navigationBar.frame.size.width,
-                                    self.navigationController.navigationBar.frame.size.height);
-    NSData *barFrameData = [NSKeyedArchiver archivedDataWithRootObject:[NSValue valueWithCGRect:navBarframe]];
-    [frameSize setObject:barFrameData forKey:@"frame"];
-    [frameSize synchronize];
+    [self.navigationController.navigationBar setUserInteractionEnabled:!shouldExpandState];
+//    NSUserDefaults *frameSize = [NSUserDefaults standardUserDefaults];
+//    //Put frame size into defaults
+//    CGRect navBarframe = CGRectMake(self.navigationController.navigationBar.frame.origin.x,
+//                                    (shouldExpandState?-23.5:20),
+//                                    self.navigationController.navigationBar.frame.size.width,
+//                                    self.navigationController.navigationBar.frame.size.height);
+//    NSData *barFrameData = [NSKeyedArchiver archivedDataWithRootObject:[NSValue valueWithCGRect:navBarframe]];
+//    [frameSize setObject:barFrameData forKey:@"frame"];
+//    [frameSize synchronize];
 }
 - (CGRect)statusBarFrame{
     return [UIApplication sharedApplication].statusBarFrame;
@@ -165,16 +173,26 @@ typedef enum : NSUInteger {
 
         CGRect barFrame = [self navBarFrame];
         CGFloat navBarY = [self statusBarFrameHeight] + [self navBarFrameHeight];
+        
+        CGFloat expendTotalDistance = (SCREENH_HEIGHT - self.articleDetailContentViewController.titleContainer.frame.size.height);
+        CGFloat expendProgress = (expendTotalDistance - newTopLine)/expendTotalDistance;
+        self.articleDetailContentViewController.expendAnimProgress = expendProgress;
+        
         if (delta > 0) {
             if (newTopLine > navBarY) {
                 return;
             }
         }
-        CGFloat newBarYOffset = MIN([self statusBarFrameHeight], MAX(barFrame.origin.y - delta, -[self navBarFrameHeight] + [self statusBarFrameHeight])) ;
+        CGFloat newBarYOffset = MIN([self statusBarFrameHeight],
+                                    MAX(barFrame.origin.y - delta,
+                                        -[self navBarFrameHeight])) ;
         CGPoint newBarOrigin = CGPointMake(barFrame.origin.x, newBarYOffset);
-
+        
+        
         barFrame.origin = newBarOrigin;
         self.navigationController.navigationBar.frame = barFrame;
+        
+        
         
     }
 }
@@ -182,8 +200,9 @@ typedef enum : NSUInteger {
     if (!_itemBehavior) {
         _itemBehavior = [[UIDynamicItemBehavior alloc]initWithItems:@[self.articleDetailContentViewController.view]];
         _itemBehavior.density = 0.01;
-        _itemBehavior.resistance = 10;
-        _itemBehavior.friction = 0.0;
+        _itemBehavior.resistance = 20;
+        _itemBehavior.friction = 1.0;
+        _itemBehavior.elasticity = 0.0;
         _itemBehavior.allowsRotation = false;
     }
     return _itemBehavior;
@@ -195,8 +214,8 @@ typedef enum : NSUInteger {
         CGSize regionSize = CGSizeMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight]);
         UIRegion *topBufferRegion = [[UIRegion alloc]initWithSize:regionSize];
         _topFieldBehavior.region = topBufferRegion;
-        _topFieldBehavior.position = CGPointMake(SCREEN_WIDTH/2, [self statusBarFrameHeight] + (SCREENH_HEIGHT - [self statusBarFrameHeight])/2);
-        _topFieldBehavior.strength = 20;
+        _topFieldBehavior.position = CGPointMake(SCREEN_WIDTH/2, (SCREENH_HEIGHT)/2 - [self statusBarFrameHeight]);
+        _topFieldBehavior.strength = 30;
     }
     return _topFieldBehavior;
 }
@@ -204,11 +223,11 @@ typedef enum : NSUInteger {
     if (!_bottomFieldBehavior) {
         _bottomFieldBehavior = [UIFieldBehavior springField];
         [_bottomFieldBehavior addItem:self.articleDetailContentViewController.view];
-        CGSize regionSize = CGSizeMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight]);
+        CGSize regionSize = CGSizeMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight]);
         UIRegion *buttomBufferRegion = [[UIRegion alloc]initWithSize:regionSize];
         _bottomFieldBehavior.region = buttomBufferRegion;
         _bottomFieldBehavior.position = CGPointMake(SCREEN_WIDTH/2, SCREENH_HEIGHT - [self navBarFrameHeight] + (SCREENH_HEIGHT - [self statusBarFrameHeight])/2);
-        _bottomFieldBehavior.strength = 20;
+        _bottomFieldBehavior.strength = 30;
     }
     return _bottomFieldBehavior;
 }
@@ -216,29 +235,30 @@ typedef enum : NSUInteger {
     if (!_topCollisionBehavior) {
         _topCollisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.articleDetailContentViewController.view]];
         [_topCollisionBehavior addBoundaryWithIdentifier:@"TopBoundary"
-                                               fromPoint:CGPointMake(0, [self statusBarFrameHeight]-.5)
-                                                 toPoint:CGPointMake(SCREEN_WIDTH, [self statusBarFrameHeight]-.5)];
+                                               fromPoint:CGPointMake(0, -1)
+                                                 toPoint:CGPointMake(SCREEN_WIDTH, -1)];
         
     }
     return _topCollisionBehavior;
 }
+
 -(UICollisionBehavior *)bottomCollisionBehavior{
     if (!_bottomCollisionBehavior) {
         _bottomCollisionBehavior = [[UICollisionBehavior alloc] initWithItems:@[self.articleDetailContentViewController.view]];
         [_bottomCollisionBehavior addBoundaryWithIdentifier:@"bottomBoundary"
-                                                  fromPoint:CGPointMake(0, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight])
-                                                    toPoint:CGPointMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight])];
+                                                  fromPoint:CGPointMake(0, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight] + 1)
+                                                    toPoint:CGPointMake(SCREEN_WIDTH, SCREENH_HEIGHT + SCREENH_HEIGHT - [self statusBarFrameHeight] - [self navBarFrameHeight] + 1)];
     }
     return _bottomCollisionBehavior;
 }
 
--(UIGravityBehavior *)gravityBeahvior{
-    if (!_gravityBeahvior) {
-        _gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.articleDetailContentViewController.view]];
-        _gravityBeahvior.gravityDirection = CGVectorMake(0, GRAVITYCOEFFICIENT);
-    }
-    return _gravityBeahvior;
-}
+//-(UIGravityBehavior *)gravityBeahvior{
+//    if (!_gravityBeahvior) {
+//        _gravityBeahvior = [[UIGravityBehavior alloc] initWithItems:@[self.articleDetailContentViewController.view]];
+//        _gravityBeahvior.gravityDirection = CGVectorMake(0, GRAVITYCOEFFICIENT);
+//    }
+//    return _gravityBeahvior;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -248,72 +268,118 @@ typedef enum : NSUInteger {
 - (void)prepareGestureRecognizerInView:(UIView*)view {
     UIPanGestureRecognizer *gesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [view addGestureRecognizer:gesture];
+    UIPanGestureRecognizer *gesture2 = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [self.articleDetailContentViewController.titleContainer addGestureRecognizer:gesture2];
+//    [self.articleDetailContentViewController.scrollView addGestureRecognizer:gesture];
 }
+
 - (void)handleGesture:(UIPanGestureRecognizer *)gesture {
-    CGPoint touchPoint = [gesture locationInView:self.view];
-    CGPoint velocity = [gesture velocityInView:self.view];
-
-    NSLog(@"%f",velocity.y);
-    UIView* draggedView = gesture.view;
-    switch (gesture.state) {
-        case UIGestureRecognizerStateBegan:{
-
-            self.attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:draggedView attachedToAnchor:CGPointMake(gesture.view.superview.center.x, touchPoint.y)];
-            [self.animator addBehavior:self.attachmentBehavior];
-            self.lastAnchorPoint = touchPoint;
-            NSLog(@"start anchor y: %f",self.lastAnchorPoint.y);
-            break;
-        }
-        case UIGestureRecognizerStateChanged: {
-
-            self.articleState = barScrolling;
-            
-            if (!self.shouldExpandState && touchPoint.y > self.lastAnchorPoint.y) {
-                touchPoint = CGPointMake(touchPoint.x, self.lastAnchorPoint.y);
-            }
-            if (self.shouldExpandState && touchPoint.y < self.lastAnchorPoint.y) {
-                touchPoint = CGPointMake(touchPoint.x, self.lastAnchorPoint.y);
-            }
-            if(velocity.y > 0){
-                [self.animator removeBehavior:self.topCollisionBehavior];
-                [self.animator addBehavior:self.bottomCollisionBehavior];
+    
+//    [self.articleDetailContentViewController.titleContainer ]
+    if (!self.articleDetailContentViewController.scrollView.reading || [gesture.view isEqual:self.articleDetailContentViewController.titleContainer]) {
+        CGPoint touchPoint = [gesture locationInView:self.view];
+        CGPoint velocity = [gesture velocityInView:self.view];
+        
+        UIView* draggedView = self.articleDetailContentViewController.view;
+        switch (gesture.state) {
+            case UIGestureRecognizerStateBegan:{
                 
-            }else{
-                
-                [self.animator removeBehavior:self.bottomCollisionBehavior];
-                [self.animator addBehavior:self.topCollisionBehavior];
+                self.attachmentBehavior = [[UIAttachmentBehavior alloc] initWithItem:draggedView attachedToAnchor:CGPointMake(gesture.view.superview.center.x, touchPoint.y)];
+                [self.animator addBehavior:self.attachmentBehavior];
+                [self.animator removeBehavior:self.pushBehavior];
+                self.lastAnchorPoint = touchPoint;
+                break;
             }
-            [self.attachmentBehavior setAnchorPoint:CGPointMake(gesture.view.superview.center.x, touchPoint.y)];
-            
-            [self.animator removeBehavior:self.topFieldBehavior];
-            [self.animator removeBehavior:self.bottomFieldBehavior];
-            break;
-        }
-        case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled: {
-            self.lastAnchorPoint = CGPointZero;
-            CGFloat fraction = touchPoint.y / (SCREENH_HEIGHT);
-            fraction = fminf(fmaxf(fraction, 0.0), 1.0);
-            self.shouldExpandState = (fraction < 0.5);
-            [self.animator removeBehavior:self.attachmentBehavior];
-            
-            if (!self.shouldExpandState) {
-                self.gravityBeahvior.gravityDirection = CGVectorMake(0, 3);
-                [self.animator addBehavior:self.bottomFieldBehavior];
-                [self.animator addBehavior:self.bottomCollisionBehavior];
-            }else{
-                self.gravityBeahvior.gravityDirection = CGVectorMake(0, -3);
-                [self.animator addBehavior:self.topFieldBehavior];
-                [self.animator addBehavior:self.topCollisionBehavior];
+            case UIGestureRecognizerStateChanged: {
                 
+                self.articleState = barScrolling;
+                
+                if (!self.shouldExpandState && touchPoint.y > self.lastAnchorPoint.y) {
+                    touchPoint = CGPointMake(touchPoint.x, self.lastAnchorPoint.y);
+                }
+                if (self.shouldExpandState && touchPoint.y < self.lastAnchorPoint.y) {
+                    touchPoint = CGPointMake(touchPoint.x, self.lastAnchorPoint.y);
+                }
+                if(velocity.y > 0){
+                    [self.animator removeBehavior:self.topCollisionBehavior];
+                    [self.animator addBehavior:self.bottomCollisionBehavior];
+                    
+                }else{
+                    
+                    [self.animator removeBehavior:self.bottomCollisionBehavior];
+                    [self.animator addBehavior:self.topCollisionBehavior];
+                }
+                [self.attachmentBehavior setAnchorPoint:CGPointMake(gesture.view.superview.center.x, touchPoint.y)];
+                [self.animator addBehavior:self.attachmentBehavior];
+                
+                
+                [self.animator removeBehavior:self.topFieldBehavior];
+                [self.animator removeBehavior:self.bottomFieldBehavior];
+                break;
             }
+            case UIGestureRecognizerStateEnded:
+            case UIGestureRecognizerStateCancelled: {
+//                [self.articleDetailContentViewController.scrollView setUserInteractionEnabled:YES];
+                
+                self.lastAnchorPoint = CGPointZero;
+                //            NSLog(@"CURRENT VELOCITY: %f",velocity.y);
+                if (fabs(velocity.y) < 50) {
+                    CGFloat fraction = (touchPoint.y) / (SCREENH_HEIGHT);
+                    fraction = fminf(fmaxf(fraction, 0.0), 1.0);
+                    self.shouldExpandState = (fraction < 0.5);
+                }else{
+                    CGFloat magnitude = sqrtf((velocity.y * velocity.y))/150;
+                    self.pushBehavior = [[UIPushBehavior alloc] initWithItems:@[draggedView] mode:UIPushBehaviorModeInstantaneous];
+                    self.pushBehavior.pushDirection = CGVectorMake(0 , (velocity.y / 10));
+
+                    self.pushBehavior.magnitude = magnitude;
+                    [self.animator addBehavior:self.pushBehavior];
+                    
+                    if (magnitude > 10) {
+                        self.shouldExpandState = (velocity.y<0);
+                    }else{
+                        CGFloat fraction = (touchPoint.y) / (SCREENH_HEIGHT);
+                        fraction = fminf(fmaxf(fraction, 0.0), 1.0);
+                        self.shouldExpandState = (fraction < 0.5);
+                    }
+                }
+                
+                [self.animator removeBehavior:self.attachmentBehavior];
             
-            
-            break;
+                if (!self.shouldExpandState) {
+//                    self.gravityBeahvior.gravityDirection = CGVectorMake(0, 3);
+                    [self.animator addBehavior:self.bottomFieldBehavior];
+                    [self.animator addBehavior:self.bottomCollisionBehavior];
+                }else{
+//                    self.gravityBeahvior.gravityDirection = CGVectorMake(0, -3);
+                    [self.animator addBehavior:self.topFieldBehavior];
+                    [self.animator addBehavior:self.topCollisionBehavior];
+                    
+                    
+                }
+                break;
+            }
+            default:
+                break;
         }
-        default:
-            break;
+    }else{
+        [self.animator removeBehavior:self.pushBehavior];
+        [self.animator removeBehavior:self.attachmentBehavior];
+
+        [self.animator addBehavior:self.topFieldBehavior];
+        [self.animator addBehavior:self.topCollisionBehavior];
+        
+        [self.animator removeBehavior:self.bottomFieldBehavior];
+        [self.animator removeBehavior:self.bottomCollisionBehavior];
     }
+    
+}
+#pragma mark - TKSArticleResponseQuoteFooterSectionViewDelegate Method
+-(void)footer:(TKSArticleResponseQuoteFooterSectionView *)footer didTapSeeMoreButton:(UIButton *)btnSeeMore{
+    TKSArticleResponseListDataObject *item = [self.articleDisscussDataSource sectionItemAtIndexPathSection:footer.sectionIndex];
+    item.shouldExpandList = YES;
+    [self.articleDisscussDataSource updateSectionDataItem:item atSectionIndex:item.sectionIndex];
+    [self.articleResponseListTableView reloadData];
 }
 #pragma mark - UITableView Delegate Methods
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -330,6 +396,7 @@ typedef enum : NSUInteger {
     self.shouldExpandState = YES;
     [self.articleDetailContentViewController scrollWithParaIdentifer:paraIdentifer];
 }
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (![self.arrShownIndexes containsObject:indexPath]) {
         [self.arrShownIndexes addObject:indexPath];
@@ -349,12 +416,26 @@ typedef enum : NSUInteger {
     }
     
 }
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    TKSArticleResponseQuoteFooterSectionView *footer = [tableView dequeueReusableHeaderFooterViewWithIdentifier:NSStringFromClass([TKSArticleResponseQuoteFooterSectionView class])];
+    TKSArticleResponseListDataObject *item = [self.articleDisscussDataSource sectionItemAtIndexPathSection:section];
+//    item.shouldExpandList = NO;
+    footer.delegate = self;
+    self.articleDisscussDataSource.configureFooterBlock(footer,item);
+    return footer;
+}
+- (nullable UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;{
+    id header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:self.articleDisscussDataSource.headerIdentifier];
+    id item = [self.articleDisscussDataSource sectionItemAtIndexPathSection:section];
+    self.articleDisscussDataSource.configureHeaderBlock(header,item);
+    return header;
+}
 #pragma mark - Listening for the user to trigger a refresh
 
 - (void)refreshTriggered:(id)sender{
 //    NSDictionary *params = @{@"page": @"1"};
     [self.refreshControl beginRefreshing];
-    self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleDetailPathWithArticleId:self.articleId] param:nil requestType:GET];
+    [self.requestManager requestForLoadData];
     //    [self performSelector:@selector(finishRefreshControl) withObject:nil afterDelay:3 inModes:@[NSRunLoopCommonModes]];
 }
 
@@ -362,41 +443,77 @@ typedef enum : NSUInteger {
 {
     [self.refreshControl endRefreshing];
 }
-#pragma mark - network callback
--(void)engine:(TKSBaseRequestEngine *)engine didRequestFinishedWithData:(id)data andError:(NSError *)error{
-    if ([engine isEqual:self.requestEngine]) {
-        NSDictionary *articleDetail = [data objectForKey:@"results"];
-        self.arrArticleDiscussPointDataSource = [NSArray arrayWithArray:[articleDetail objectForKey:@"article_responses"]];
-        NSArray *htmlContentInfosList = [articleDetail objectForKey:@"article_html_contents"];
-        NSString *contentString = [NSString string];
-        
-        NSArray *htmlContentsList = [htmlContentInfosList sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            CGFloat aNumber = [[obj1 valueForKey:@"content_index"] floatValue];
-            CGFloat bNumber = [[obj2 valueForKey:@"content_index"] floatValue];
-            if (aNumber > bNumber) {
-                return NSOrderedDescending;
-            }else if (aNumber == bNumber){
-                return NSOrderedSame;
-            }else{
-                return NSOrderedAscending;
-            }
-        }];
-        
-        for (int i = 0; i < htmlContentsList.count; i++) {
-            NSDictionary *htmlContent = [htmlContentsList objectAtIndex:i];
-            NSString *partContent = [htmlContent objectForKey:@"html_content"];
-            contentString = [contentString stringByAppendingString:partContent];
+#pragma mark - TKSSingleRequestsManagerDelegate Method
+-(void)didRequestFinishedWithDataResult:(NSDictionary *)dataInfo andError:(NSError *)error{
+    [super didRequestFinishedWithDataResult:dataInfo andError:error];
+    NSMutableArray *sectionList = [NSMutableArray array];
+    
+    NSArray *list = [NSArray arrayWithArray:[dataInfo objectForKey:@"article_responses"]];
+    
+    [list enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDictionary *sectionDataInfo = obj;
+        NSString *quote = @"";
+        if ([sectionDataInfo respondsToSelector:@selector(objectForKey:)] && ![[sectionDataInfo objectForKey:@"quote"] isEqual:[NSNull null]] &&[sectionDataInfo objectForKey:@"quote"]) {
+            quote = [sectionDataInfo objectForKey:@"quote"];
         }
-        self.articleHtmlContent = contentString;//[articleDetail objectForKey:@"article_html_content"];
-        self.articleDetailContentViewController.htmlContentString = self.articleHtmlContent;
-        [self.articleDetailContentViewController setUpTextViewWithArticleHtmlContent:self.articleDetailContentViewController.htmlContentString];
-        self.articleDisscussDataSource.items = self.arrArticleDiscussPointDataSource;
-        [self.articleResponseListTableView reloadData];
-        [self finishRefreshControl];
-        //        NSLog(@"%@",data);
+        NSMutableArray *responses = [NSMutableArray array];
+        if ([sectionDataInfo respondsToSelector:@selector(objectForKey:)] && ![[sectionDataInfo objectForKey:@"quote_responses_list"] isEqual:[NSNull null]] &&[sectionDataInfo objectForKey:@"quote_responses_list"]) {
+            for (NSDictionary *responseInfo in [sectionDataInfo objectForKey:@"quote_responses_list"]) {
+                [responses addObject:[responseInfo objectForKey:@"response_quote_text"]];
+            }
+            //            responses = [sectionDataInfo objectForKey:@"quote_response_list"];
+        }
+        TKSArticleResponseListDataObject *section = [[TKSArticleResponseListDataObject alloc]initWithQuoteText:quote andResponses:responses];
+        section.sectionIndex = idx;
+        section.shouldExpandList = NO;
+        [sectionList addObject:section];
+    }];
+//    for (NSDictionary *sectionDataInfo in [NSArray arrayWithArray:[dataInfo objectForKey:@"article_responses"]]) {
+//        NSString *quote = @"";
+//        if ([sectionDataInfo respondsToSelector:@selector(objectForKey:)] && ![[sectionDataInfo objectForKey:@"quote"] isEqual:[NSNull null]] &&[sectionDataInfo objectForKey:@"quote"]) {
+//            quote = [sectionDataInfo objectForKey:@"quote"];
+//        }
+//        NSMutableArray *responses = [NSMutableArray array];
+//        if ([sectionDataInfo respondsToSelector:@selector(objectForKey:)] && ![[sectionDataInfo objectForKey:@"quote_responses_list"] isEqual:[NSNull null]] &&[sectionDataInfo objectForKey:@"quote_responses_list"]) {
+//            for (NSDictionary *responseInfo in [sectionDataInfo objectForKey:@"quote_responses_list"]) {
+//                [responses addObject:[responseInfo objectForKey:@"response_quote_text"]];
+//            }
+//            //            responses = [sectionDataInfo objectForKey:@"quote_response_list"];
+//        }
+//        TKSArticleResponseListDataObject *section = [[TKSArticleResponseListDataObject alloc]initWithQuoteText:quote andResponses:responses];
+//        section.shouldExpandList = NO;
+//        [sectionList addObject:section];
+//    }
+    
+    self.arrArticleDiscussPointDataSource = sectionList;
+    NSArray *htmlContentInfosList = [dataInfo objectForKey:@"article_html_contents"];
+    NSString *contentString = [NSString string];
+    
+    NSArray *htmlContentsList = [htmlContentInfosList sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        CGFloat aNumber = [[obj1 valueForKey:@"content_index"] floatValue];
+        CGFloat bNumber = [[obj2 valueForKey:@"content_index"] floatValue];
+        if (aNumber > bNumber) {
+            return NSOrderedDescending;
+        }else if (aNumber == bNumber){
+            return NSOrderedSame;
+        }else{
+            return NSOrderedAscending;
+        }
+    }];
+    
+    for (int i = 0; i < htmlContentsList.count; i++) {
+        NSDictionary *htmlContent = [htmlContentsList objectAtIndex:i];
+        NSString *partContent = [htmlContent objectForKey:@"html_content"];
+        contentString = [contentString stringByAppendingString:partContent];
     }
     
+    self.articleDetailContentViewController.htmlContentString = contentString;
+    [self.articleDetailContentViewController setUpTextViewWithArticleHtmlContent:self.articleDetailContentViewController.htmlContentString];
+    self.articleDisscussDataSource.items = self.arrArticleDiscussPointDataSource;
+    [self.articleResponseListTableView reloadData];
+    [self finishRefreshControl];
 }
+
 #pragma mark - setter and getter
 -(NSMutableArray *)arrShownIndexes{
     if (!_arrShownIndexes) {
@@ -424,7 +541,7 @@ typedef enum : NSUInteger {
 
 -(UITableView *)articleResponseListTableView{
     if (!_articleResponseListTableView) {
-        _articleResponseListTableView = [[UITableView alloc] init];
+        _articleResponseListTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         
         _articleResponseListTableView.delegate = self;
         _articleResponseListTableView.dataSource = self.articleDisscussDataSource;
@@ -432,11 +549,17 @@ typedef enum : NSUInteger {
         
         _articleResponseListTableView.rowHeight = UITableViewAutomaticDimension;
         _articleResponseListTableView.estimatedRowHeight = 50;
+        _articleResponseListTableView.sectionHeaderHeight = UITableViewAutomaticDimension;
+        _articleResponseListTableView.estimatedSectionHeaderHeight = 100;
+        _articleResponseListTableView.sectionFooterHeight = UITableViewAutomaticDimension;
+        _articleResponseListTableView.estimatedSectionFooterHeight = 20;
+//        _articleResponseListTableView
         
         _articleResponseListTableView.separatorStyle = NO;
         
-        [_articleResponseListTableView registerClass:[TKSArticleResponseTableViewCell class] forCellReuseIdentifier:NSStringFromClass([TKSArticleResponseTableViewCell class])];
-        [_articleResponseListTableView registerClass:[TKSBaseLoadMoreTableViewCell class] forCellReuseIdentifier:NSStringFromClass([TKSBaseLoadMoreTableViewCell class])];
+        [_articleResponseListTableView registerClass:[TKSArticleUserResponsesTableViewCell class] forCellReuseIdentifier:NSStringFromClass([TKSArticleUserResponsesTableViewCell class])];
+        [_articleResponseListTableView registerClass:[TKSArticleResponseQuoteFooterSectionView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([TKSArticleResponseQuoteFooterSectionView class])];
+        [_articleResponseListTableView registerClass:[TKSArticleResponseQuoteTextSectionView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([TKSArticleResponseQuoteTextSectionView class])];
         _articleResponseListTableView.backgroundColor = rgb(247, 247, 247);
     }
     return _articleResponseListTableView;
@@ -444,29 +567,39 @@ typedef enum : NSUInteger {
 -(NSArray *)sampleArray{
     return @[];
 }
--(TKSBaseArrayWithLoadMoreItemDataSource *)articleDisscussDataSource{
+-(TKSBaseSectionListDataSource *)articleDisscussDataSource{
     if (!_articleDisscussDataSource) {
         
-        _articleDisscussDataSource = [[TKSBaseArrayWithLoadMoreItemDataSource alloc]initWithArray:[self sampleArray] cellReuseIdentifier:NSStringFromClass([TKSArticleResponseTableViewCell class]) configureCellBlock:^(id cell, id item) {
-            TKSArticleResponseTableViewCell *discussPointCell = (TKSArticleResponseTableViewCell*)cell;
+        _articleDisscussDataSource = [[TKSBaseSectionListDataSource alloc]initWithArray:[self sampleArray] cellReuseIdentifier:NSStringFromClass([TKSArticleUserResponsesTableViewCell class]) configureCellBlock:^(id cell, id item) {
+            TKSArticleUserResponsesTableViewCell *discussPointCell = (TKSArticleUserResponsesTableViewCell*)cell;
+            
+            NSString *userName = @"Vincent";
+            NSString *readingTime = @"7/20 - 12 mins";
+            NSString *response = item;
+            NSInteger favNumber = 25;
+            BOOL isfav = rand()%2;
+            
+            [discussPointCell setResponseUserName:userName];
+            [discussPointCell setResponseText:response];
+            [discussPointCell setResponseReadingTime:readingTime];
+            [discussPointCell setResponseFav:isfav];
+            [discussPointCell setResponseFavNumber:favNumber];
+            
+        } headerReuseIdentifier:NSStringFromClass([TKSArticleResponseQuoteTextSectionView class]) configureHeaderBlock:^(id cell, TKSArticleResponseListDataObject *item) {
+            TKSArticleResponseQuoteTextSectionView *discussPointSectionView = (TKSArticleResponseQuoteTextSectionView*)cell;
             
             NSString *quote = @"";
-            NSString *paraIdentifer = @"";
-            NSString *response = @"";
-            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"quote"] isEqual:[NSNull null]] &&[item objectForKey:@"quote"]) {
-                quote = [item objectForKey:@"quote"];
-            }
-            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"response"] isEqual:[NSNull null]] &&[item objectForKey:@"response"]) {
-                response = [item objectForKey:@"response"];
-            }
-            if ([item respondsToSelector:@selector(objectForKey:)] && ![[item objectForKey:@"quote_identifer"] isEqual:[NSNull null]] &&[item objectForKey:@"quote_identifer"]) {
-                paraIdentifer = [item objectForKey:@"quote_identifer"];
-            }
-            [discussPointCell setQuoteText:quote];
-            [discussPointCell setResponseText:response];
-            [discussPointCell setParaIdentifer:paraIdentifer];
-            //            [articleCell.lblArticleTitle setText:[NSString stringWithFormat:@"%ld",[item integerValue]]];
-            //            [articleCell.lblArticleBriefText setText:[self stringWithLineNumber:[self getRandomNumberBetween:1 and:5]]];
+            quote = item.quoteText;
+            discussPointSectionView.sectionIndex = item.sectionIndex;
+            [discussPointSectionView setQuoteText:quote];
+
+        }footerReuseIdentifier:NSStringFromClass([TKSArticleResponseQuoteFooterSectionView class]) configureFooterBlock:^(id cell, TKSArticleResponseListDataObject *item) {
+            TKSArticleResponseQuoteFooterSectionView *showMoreSectionView = (TKSArticleResponseQuoteFooterSectionView*)cell;
+            
+//            BOOL shouldShowMoreButton = NO;
+//            shouldShowMoreButton = item.shouldExpandList;
+            showMoreSectionView.sectionIndex = item.sectionIndex;
+            [showMoreSectionView setShowSeeMoreButton:item.shouldExpandList];
         }];
     }
     return _articleDisscussDataSource;

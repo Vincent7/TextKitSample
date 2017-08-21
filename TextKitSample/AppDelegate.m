@@ -22,6 +22,7 @@
     self.window.rootViewController = navigationController;
     self.window.backgroundColor = [UIColor whiteColor];
     
+    
     [self.window makeKeyAndVisible];
     
 #if defined(DEBUG)||defined(_DEBUG)

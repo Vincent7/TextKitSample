@@ -19,15 +19,22 @@
 //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightRegular];
 }
 
+
+
 +(UIFont *)articleTextFontOfSize:(CGFloat)fontSize{
     return [UIFont fontWithName:@"Raleway-Regular" size:fontSize];
 //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
 }
 
 +(UIFont *)articleDiscussPointQuoteTextOfSize:(CGFloat)fontSize{
-    return [UIFont fontWithName:@"Raleway-Regular" size:fontSize];
+    return [UIFont fontWithName:@"Raleway-SemiBoldItalic" size:fontSize];
 //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
 }
++(UIFont *)articleDiscussPointSubTextOfSize:(CGFloat)fontSize{
+    return [UIFont fontWithName:@"Raleway-MediumItalic" size:fontSize];
+    //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
+}
+
 +(UIFont *)articleDiscussPointResponseTextOfSize:(CGFloat)fontSize{
     return [UIFont fontWithName:@"Raleway-Medium" size:fontSize];
     //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightLight];
@@ -51,6 +58,10 @@
     return [UIFont articleDiscussPointQuoteTextOfSize:16];
 }
 
++(UIFont *)articleDiscussPointQuoteButtonTextFont{
+    return [UIFont articleDiscussPointQuoteTextOfSize:16];
+}
+
 +(UIFont *)articleDiscussPointResponseTextFont{
     return [UIFont articleDiscussPointResponseTextOfSize:18];
 }
@@ -60,5 +71,25 @@
 }
 +(UIFont *)refreshControlFont{
     return [UIFont systemFontOfSize:12 weight:UIFontWeightLight];
+}
+
++(UIFont *)articleDiscussPointResponseUserNameLabelFont{
+    return [UIFont articleDiscussPointSubTextOfSize:14];
+}
++(UIFont *)articleDiscussPointResponseReadingTimeLabelFont{
+    return [UIFont articleDiscussPointSubTextOfSize:14];
+}
+
++(UIFont *)articleDiscussPointResponsePageTitleLabelFont{
+    return [UIFont fontWithName:@"Raleway-Medium" size:18];
+    //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightRegular];
+}
++(UIFont *)articleDiscussPointFavButtonTitleFont{
+    return [UIFont fontWithName:@"Raleway-Medium" size:18];
+    //    return [UIFont systemFontOfSize:fontSize weight:UIFontWeightRegular];
+}
+
++(UIFont *)articleDiscussPointSeeMoreFooterButtonTitleFont{
+    return [UIFont fontWithName:@"Raleway-Medium" size:14];
 }
 @end

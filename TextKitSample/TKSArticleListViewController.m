@@ -8,7 +8,7 @@
 
 #import "TKSArticleListViewController.h"
 
-#import "TKSBaseRequestEngine.h"
+
 
 //#import "CBStoreHouseRefreshControl.h"
 
@@ -17,19 +17,18 @@
 #import "TKSArticleDetailViewController.h"
 #import "TKSArticleResponseListAndDetailViewController.h"
 #import "TKSTextParagraphAttributeManager.h"
-@interface TKSArticleListViewController () <TKSBaseRequestEngineDelegate,UITableViewDelegate>
+
+@interface TKSArticleListViewController () <UITableViewDelegate>
 
 //@property (nonatomic, strong) NSTextContainer *container;
 //@property (nonatomic, strong) NSLayoutManager *layoutManager;
 //@property (nonatomic, strong) TKSTextStorage *textStorage;
 
-@property (nonatomic, strong) TKSBaseRequestEngine *requestEngine;
+
 
 @property (nonatomic, strong) UITableView *articleListTableView;
 
 @property (nonatomic, strong) TKSBaseArrayDataSource *articleListDataSource;
-
-@property (nonatomic, strong) NSArray *arrArticleDataSource;
 
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
@@ -40,32 +39,51 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSDictionary *params = @{@"page": @"1"};
 
-    self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleListPath] param:params requestType:GET];
-    [self.view addSubview:self.articleListTableView];
+    self.paginateRequestManager = [TKSPaginateRequestsManager new];
+    self.paginateRequestManager.delegate = self;
+    self.paginateRequestManager.refreshRequestPathString = [TKSNetworkingRequestPathManager articleListPath];
+    self.paginateRequestManager.insertRequestPathString = [TKSNetworkingRequestPathManager articleListPath];
+    [self refreshTriggered:nil];
     
+//    self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleListPath] param:self.updateParamsInfo requestType:GET];
+    [self.view addSubview:self.articleListTableView];
     [self.articleListTableView addSubview:self.refreshControl];
     [self.articleListTableView sendSubviewToBack:self.refreshControl];
-    
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:0.1 alpha:1];
+    self.navigationController.navigationBar.barTintColor = [UIColor navigationBarBackgroundColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+//    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     
 //    self.sampleTextView = [[UITextView alloc] initWithFrame:CGRectZero textContainer: self.container];
 //    [self.view addSubview:self.sampleTextView];
     // Do any additional setup after loading the view, typically from a nib.
 }
--(void)engine:(TKSBaseRequestEngine *)engine didRequestFinishedWithData:(id)data andError:(NSError *)error{
-    if ([engine isEqual:self.requestEngine]) {
-        self.arrArticleDataSource = [NSArray arrayWithArray:[data objectForKey:@"results"]];
-        self.articleListDataSource.items = self.arrArticleDataSource;
-        [self.articleListTableView reloadData];
-        [self finishRefreshControl];
-//        NSLog(@"%@",data);
+
+#pragma mark - TKSTextParagraphAttributeManager Delegate
+-(void)didRefreshRequestFinishedWithRefreshDataArray:(NSArray *)refreshDataList andError:(NSError *)error{
+    self.articleListDataSource.items = refreshDataList;
+    [self.articleListTableView reloadData];
+    [self finishRefreshControl];
+}
+
+-(void)didInsertRequestFinishedWithInsertedDataArray:(NSArray *)insertedDataList andError:(NSError *)error{
+    if (insertedDataList.count > 0){
+        NSMutableArray *previousDataList = [NSMutableArray arrayWithArray:self.articleListDataSource.items];
+        NSInteger previousDataCount = previousDataList.count;
+        NSInteger insertedDataCount = insertedDataList.count;
+        NSMutableArray *needsUpdateIndexPaths = [NSMutableArray array];
+        for (NSInteger i = previousDataCount; i < previousDataCount+insertedDataCount; i++) {
+            NSIndexPath *needsUpdataIndexPath = [NSIndexPath indexPathForRow:i inSection:0];
+            [needsUpdateIndexPaths addObject:needsUpdataIndexPath];
+        }
+        
+        self.articleListDataSource.items = [previousDataList arrayByAddingObjectsFromArray:insertedDataList];;
+        
+        [self.articleListTableView beginUpdates];
+        [self.articleListTableView insertRowsAtIndexPaths:needsUpdateIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self.articleListTableView endUpdates];
     }
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -82,12 +100,12 @@
 }
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [UIView animateWithDuration:0.2 animations:^{
-        self.navigationController.navigationBar.frame = CGRectMake(self.navigationController.navigationBar.frame.origin.x,
-                                                                   [UIApplication sharedApplication].statusBarFrame.size.height,
-                                                                   self.navigationController.navigationBar.frame.size.width,
-                                                                   self.navigationController.navigationBar.frame.size.height);
-    }];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        self.navigationController.navigationBar.frame = CGRectMake(self.navigationController.navigationBar.frame.origin.x,
+//                                                                   [UIApplication sharedApplication].statusBarFrame.size.height,
+//                                                                   self.navigationController.navigationBar.frame.size.width,
+//                                                                   self.navigationController.navigationBar.frame.size.height);
+//    }];
 //    [self.articleListTableView scrollRectToVisible:CGRectMake(0, 300, SCREEN_WIDTH, SCREENH_HEIGHT) animated:YES];
 }
 - (void)didReceiveMemoryWarning {
@@ -109,15 +127,15 @@
 
 #pragma mark - Listening for the user to trigger a refresh
 
-- (void)refreshTriggered:(id)sender
-{
+- (void)refreshTriggered:(id)sender{
     [self.refreshControl beginRefreshing];
-    NSDictionary *params = @{@"page": @"1"};
-    self.requestEngine = [TKSBaseRequestEngine control:self path:[TKSNetworkingRequestPathManager articleListPath] param:params requestType:GET];
+    [self.paginateRequestManager requestForUpdate];
     
 //    [self performSelector:@selector(finishRefreshControl) withObject:nil afterDelay:3 inModes:@[NSRunLoopCommonModes]];
 }
-
+- (void)insertTriggered:(id)sender{
+    [self.paginateRequestManager requestForInsert];
+}
 - (void)finishRefreshControl
 {
     [self.refreshControl endRefreshing];
@@ -133,11 +151,14 @@
     TKSArticleResponseListAndDetailViewController *vc = [TKSArticleResponseListAndDetailViewController new];
     NSDictionary *item = [self.articleListDataSource itemAtIndexPath:indexPath];
     NSString *articleId = [item objectForKey:@"id"];
+    NSString *articleTitle = [item objectForKey:@"article_title"];
     vc.articleId = articleId;
-    
+    vc.articleTitle = articleTitle;
     [self.navigationController pushViewController:vc animated:YES];
+    
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+
     if (![self.arrShownIndexes containsObject:indexPath]) {
         [self.arrShownIndexes addObject:indexPath];
         cell.transform = CGAffineTransformMakeTranslation(0.f, cell.frame.size.height);
@@ -154,7 +175,20 @@
         [UIView commitAnimations];
         // Your animation code here.
     }
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
+    if (![self.paginateRequestManager shouldAcceptInsertRequest]) {
+        return;
+    }
+//    CGFloat offset = scrollView.contentOffset.y;
+    
+    NSIndexPath *indexPath = self.articleListTableView.indexPathsForVisibleRows.lastObject;
+    if (!indexPath) return;
+    NSUInteger numberOfRows = [self.articleListTableView numberOfRowsInSection:0];
+    if (indexPath.row + 2 > numberOfRows) {
+        [self insertTriggered:nil];
+    }
 }
 #pragma mark - getter and setter
 
@@ -180,18 +214,13 @@
 -(UIRefreshControl *)refreshControl{
     if (!_refreshControl) {
         _refreshControl = [UIRefreshControl new];
-        NSAttributedString *loadingAttrString = [[NSAttributedString alloc]initWithString:@"Loading" attributes:[TKSTextParagraphAttributeManager refreshControlTextAttributeInfo]];
-        [_refreshControl setAttributedTitle:loadingAttrString];
+//        NSAttributedString *loadingAttrString = [[NSAttributedString alloc]initWithString:@"Loading" attributes:[TKSTextParagraphAttributeManager refreshControlTextAttributeInfo]];
+//        [_refreshControl setAttributedTitle:loadingAttrString];
         [_refreshControl addTarget:self action:@selector(refreshTriggered:) forControlEvents:UIControlEventValueChanged];
     }
     return _refreshControl;
 }
-//-(CBStoreHouseRefreshControl *)storeHouseRefreshControl{
-//    if (!_storeHouseRefreshControl) {
-//        _storeHouseRefreshControl = [CBStoreHouseRefreshControl attachToScrollView:self.articleListTableView target:self refreshAction:@selector(refreshTriggered:) plist:@"AKTA" color:[UIColor whiteColor] lineWidth:2 dropHeight:80 scale:0.7 horizontalRandomness:300 reverseLoadingAnimation:NO internalAnimationFactor:0.7];
-//    }
-//    return _storeHouseRefreshControl;
-//}
+
 -(NSArray *)sampleArray{
     return @[];
 }
@@ -238,13 +267,6 @@
         }];
     }
     return _articleListDataSource;
-}
-
--(NSArray *)arrArticleDataSource{
-    if (!_arrArticleDataSource) {
-        _arrArticleDataSource = [NSArray array];
-    }
-    return _arrArticleDataSource;
 }
 -(NSMutableArray *)arrShownIndexes{
     if (!_arrShownIndexes) {

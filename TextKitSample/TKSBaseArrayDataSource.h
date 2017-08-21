@@ -22,4 +22,6 @@ cellReuseIdentifier:(NSString *)cellIdentifier
  configureCellBlock:(TableViewCellConfigureBlock)configureCellBlock;
 
 - (id)itemAtIndexPath:(NSIndexPath *)indexPath;
+
+- (void)updateRowDataItem:(id)item atIndexPath:(NSIndexPath *)indexPath;
 @end

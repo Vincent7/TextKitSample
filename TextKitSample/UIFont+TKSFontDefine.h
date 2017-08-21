@@ -20,8 +20,17 @@
 +(UIFont *)articleListSubtitleFont;
 +(UIFont *)articleListBriefFont;
 +(UIFont *)articleDiscussPointQuoteTextFont;
++(UIFont *)articleDiscussPointQuoteButtonTextFont;
+
 +(UIFont *)articleDiscussPointResponseTextFont;
 +(UIFont *)articleDiscussPointQuotePositionLabelFont;
 
 +(UIFont *)refreshControlFont;
+
++(UIFont *)articleDiscussPointResponseUserNameLabelFont;
++(UIFont *)articleDiscussPointResponseReadingTimeLabelFont;
++(UIFont *)articleDiscussPointResponsePageTitleLabelFont;
+
++(UIFont *)articleDiscussPointFavButtonTitleFont;
++(UIFont *)articleDiscussPointSeeMoreFooterButtonTitleFont;
 @end

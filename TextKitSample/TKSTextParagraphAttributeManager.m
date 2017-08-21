@@ -29,9 +29,6 @@
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
 
     style.lineSpacing = 3.0f;
-//    style.paragraphSpacing = 25.f;
-//    style.firstLineHeadIndent = 0.f;
-
     return style;
 }
 
@@ -52,13 +49,7 @@
 
 + (NSMutableParagraphStyle *)articleListSubtitleTextStyle {
     
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    
-    style.lineSpacing = 3.0f;
-    style.paragraphSpacing = 0.f;
-    style.firstLineHeadIndent = 0.f;
-    
-    return style;
+    return [self NormalTextStyle];
 }
 
 + (NSDictionary *)articleDiscussPointQuoteTextAttributeInfo {
@@ -86,10 +77,23 @@
     style.lineSpacing = 3.0f;
     style.paragraphSpacing = 0.f;
     style.firstLineHeadIndent = 0.f;
-    
+    style.lineBreakMode = NSLineBreakByTruncatingMiddle;
     return style;
 }
-
++ (NSMutableParagraphStyle *)articleDiscussPointReadInArticleStyle {
+    
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.lineBreakMode = NSLineBreakByTruncatingTail;
+    style.lineSpacing = 3.0f;
+    style.paragraphSpacing = 0.f;
+    style.firstLineHeadIndent = 0.f;
+//    style.alignment = NSTextAlignmentLeft;
+    return style;
+}
++ (NSMutableParagraphStyle *)articleDiscussPointAddNoteStyle {
+    
+    return [self NormalTextStyle];
+}
 + (NSDictionary *)articleDiscussPointResponseTextAttributeInfo {
     
     
@@ -107,8 +111,7 @@
     
     return attributes;
 }
-
-+ (NSMutableParagraphStyle *)articleDiscussPointResponseTextStyle {
++ (NSMutableParagraphStyle *)NormalTextStyle {
     
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     
@@ -118,9 +121,21 @@
     
     return style;
 }
-
-+ (NSDictionary *)articleDiscussPointQuotePositionLabelTextAttributeInfo {
++ (NSMutableParagraphStyle *)articleDiscussPointResponseTextStyle {
+    return [self NormalTextStyle];
+}
++ (NSMutableParagraphStyle *)articleDiscussPointResponseUserNameTextStyle {
     
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    
+    style.lineSpacing = 3.0f;
+    style.paragraphSpacing = 0.f;
+    style.firstLineHeadIndent = 0.f;
+    style.alignment = NSTextAlignmentRight;
+    
+    return style;
+}
++ (NSDictionary *)articleDiscussPointQuotePositionLabelTextAttributeInfo {
     
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     
@@ -173,5 +188,174 @@
     style.firstLineHeadIndent = 0.f;
     
     return style;
+}
+
++ (NSDictionary *)articleQuoteTextAttributeInfo {
+    
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = [UIColor highlightTextColor];//TODO: 颜色管理
+    //    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointQuoteTextFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointQuoteTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSDictionary *)articleQuoteReadInArticleAttributeInfo {
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgba(0, 0, 0, 0.54);
+    //    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointQuoteButtonTextFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointReadInArticleStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSDictionary *)articleQuoteAddNoteAttributeInfo {
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgba(0, 0, 0, 0.54);
+    //    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointQuoteButtonTextFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointAddNoteStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSDictionary *)articleDiscussPointResponseUserNameAttributeInfo {
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgb(0, 0, 0);
+    
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointResponseUserNameLabelFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointResponseUserNameTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSDictionary *)articleDiscussPointResponseReadingTimeAttributeInfo {
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = rgb(0, 0, 0);
+    
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointResponseReadingTimeLabelFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self articleDiscussPointResponseTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSDictionary *)articleDiscussPointResponseHintTitleStringAttributeInfo {
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = [UIColor unhighlightTextColor];
+    
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointResponsePageTitleLabelFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self NormalTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
++ (NSDictionary *)articleDiscussPointResponseNavigationBarTitleAttributeInfo;{
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = [UIColor navigationBarTitleTextColor];
+    
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointResponsePageTitleLabelFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self NormalTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSDictionary *)articleDiscussPointResponseFavButtonDiselectedAttributeInfo;{
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = [UIColor diselectedControlTextColor];
+    
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointFavButtonTitleFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self NormalTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
++ (NSDictionary *)articleDiscussPointResponseFavButtonSelectedAttributeInfo;{
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = [UIColor selectedControlTextColor];
+    
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointFavButtonTitleFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self NormalTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
+}
+
++ (NSDictionary *)articleDisscussPointSeeMoreFooterTitleAttributeInfo {
+    
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+    
+    UIColor *textColor = [UIColor lightGrayColor];
+    //    UIColor *backgroudColor = rgb(236, 241, 255);
+    [attributes setValue:textColor forKey:NSForegroundColorAttributeName];
+    UIFont *textFont = [UIFont articleDiscussPointSeeMoreFooterButtonTitleFont];
+    //    [attributes setValue:backgroudColor forKey:NSBackgroundColorAttributeName];
+    [attributes setValue:textFont forKey:NSFontAttributeName];
+    
+    //创建段落样式
+    [attributes setValue:[self NormalTextStyle] forKey:NSParagraphStyleAttributeName];
+    
+    return attributes;
 }
 @end

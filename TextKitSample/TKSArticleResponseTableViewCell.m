@@ -38,7 +38,7 @@
         [self.contentView addSubview:self.upperBoundaryImageView];
         [self.contentView addSubview:self.lowerBoundaryImageView];
         
-        [self.backgroundContainer mas_remakeConstraints:^(MASConstraintMaker *make) {
+        [self.backgroundContainer mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(UIEdgeInsetsMake(10, 0, 10, 0));
         }];
         [self.upperBoundaryImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,6 +57,7 @@
     }
     return self;
 }
+
 - (void)prepareForReuse{
     [super prepareForReuse];
     [self setNeedsUpdateConstraints];

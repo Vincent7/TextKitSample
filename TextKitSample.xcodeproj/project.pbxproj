@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		857154326B7BABB0F32DA105 /* libPods-TextKitSample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 609ED99D109DDC44154A8BAE /* libPods-TextKitSample.a */; };
+		BF08EF941F46A0D60075104A /* TKSArticleDetailTitlePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF08EF931F46A0D60075104A /* TKSArticleDetailTitlePreviewView.m */; };
 		BF3E51F91EA867640009B4CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E51F81EA867640009B4CB /* main.m */; };
 		BF3E51FC1EA867640009B4CB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E51FB1EA867640009B4CB /* AppDelegate.m */; };
 		BF3E51FF1EA867640009B4CB /* TKSArticleListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF3E51FE1EA867640009B4CB /* TKSArticleListViewController.m */; };
@@ -16,9 +17,14 @@
 		BF5D4A111EC306C70093665F /* UIFont+TKSFontDefine.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5D4A101EC306C70093665F /* UIFont+TKSFontDefine.m */; };
 		BF5D4A141EC33C910093665F /* TKSTextParagraphAttributeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF5D4A131EC33C910093665F /* TKSTextParagraphAttributeManager.m */; };
 		BF65815E1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF65815D1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m */; };
+		BF8B70F31F2DC10700A9EE64 /* TKSArticleUserResponsesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BF8B70F21F2DC10700A9EE64 /* TKSArticleUserResponsesTableViewCell.m */; };
+		BF8B70F61F2DC65700A9EE64 /* UIImage+TKSTableViewBoundaryShadow.m in Sources */ = {isa = PBXBuildFile; fileRef = BF8B70F51F2DC65700A9EE64 /* UIImage+TKSTableViewBoundaryShadow.m */; };
+		BF8B70F91F2DDDD400A9EE64 /* TKSArticleResponseQuoteFooterSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BF8B70F81F2DDDD400A9EE64 /* TKSArticleResponseQuoteFooterSectionView.m */; };
+		BF9052F71F3466EF00D5C3FA /* UIColor+TKSColorScheme.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9052F61F3466EF00D5C3FA /* UIColor+TKSColorScheme.m */; };
 		BF9CDC131EC5BB8A00FF400D /* TKSArticleDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */; };
 		BF9D7E8E1EC079AD00D99E14 /* TKSBaseArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */; };
 		BFA01E2B1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA01E2A1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m */; };
+		BFA747D71F25E24600003367 /* TKSArticleResponseQuoteTextSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFA747D61F25E24600003367 /* TKSArticleResponseQuoteTextSectionView.m */; };
 		BFAD92211EAF4EBB0045AFDA /* TKSTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFAD92201EAF4EBB0045AFDA /* TKSTextStorage.m */; };
 		BFB832A31EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BFB832A21EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m */; };
 		BFB832A51EC1C4C700BE40A6 /* AKTA.plist in Resources */ = {isa = PBXBuildFile; fileRef = BFB832A41EC1C4C700BE40A6 /* AKTA.plist */; };
@@ -44,7 +50,12 @@
 		BFBC83661EE7F56E001D760D /* Raleway-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFBC83541EE7F56E001D760D /* Raleway-ThinItalic.ttf */; };
 		BFBD846A1EA9B8D700870792 /* TKSNetworkingRequestPathManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBD84691EA9B8D700870792 /* TKSNetworkingRequestPathManager.m */; };
 		BFBD846E1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */; };
+		BFC50A3E1F1E071F0027D74C /* TKSSingleRequestsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC50A3D1F1E071F0027D74C /* TKSSingleRequestsManager.m */; };
+		BFC50A411F1E101A0027D74C /* TKSBasePaginateRequestNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC50A401F1E101A0027D74C /* TKSBasePaginateRequestNetworkViewController.m */; };
+		BFC50A441F1E107E0027D74C /* TKSBaseSingleRequestNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC50A431F1E107E0027D74C /* TKSBaseSingleRequestNetworkViewController.m */; };
 		BFD662F71EEA90DC009AE10C /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD662F61EEA90DC009AE10C /* AVKit.framework */; };
+		BFD686D11F288900007EB78F /* TKSBaseSectionListDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD686D01F288900007EB78F /* TKSBaseSectionListDataSource.m */; };
+		BFD686D61F289725007EB78F /* TKSArticleResponseListDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD686D51F289725007EB78F /* TKSArticleResponseListDataObject.m */; };
 		BFD858B91ED6DDFA00F18A23 /* htmlSampleText.html in Resources */ = {isa = PBXBuildFile; fileRef = BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */; };
 		BFFDF3F71EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF3F61EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m */; };
 		BFFDF3FB1EB76FC400B1A92F /* TKSBaseRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF3FA1EB76FC400B1A92F /* TKSBaseRequestModel.m */; };
@@ -56,12 +67,15 @@
 		BFFDF40E1EB8C41400B1A92F /* TKSBaseNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF40D1EB8C41400B1A92F /* TKSBaseNetworkViewController.m */; };
 		BFFDF4111EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF4101EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m */; };
 		BFFDF4141EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFDF4131EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m */; };
+		BFFF76CB1F1C97D7003395B3 /* TKSPaginateRequestsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BFFF76CA1F1C97D7003395B3 /* TKSPaginateRequestsManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		48DB314E9A574251127A3D23 /* Pods-TextKitSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextKitSample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TextKitSample/Pods-TextKitSample.debug.xcconfig"; sourceTree = "<group>"; };
 		4AB507769DA6F123880427B1 /* Pods-TextKitSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TextKitSample.release.xcconfig"; path = "Pods/Target Support Files/Pods-TextKitSample/Pods-TextKitSample.release.xcconfig"; sourceTree = "<group>"; };
 		609ED99D109DDC44154A8BAE /* libPods-TextKitSample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TextKitSample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF08EF921F46A0D60075104A /* TKSArticleDetailTitlePreviewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleDetailTitlePreviewView.h; sourceTree = "<group>"; };
+		BF08EF931F46A0D60075104A /* TKSArticleDetailTitlePreviewView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleDetailTitlePreviewView.m; sourceTree = "<group>"; };
 		BF3E51F41EA867640009B4CB /* TextKitSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextKitSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF3E51F81EA867640009B4CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BF3E51FA1EA867640009B4CB /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -77,12 +91,22 @@
 		BF5D4A131EC33C910093665F /* TKSTextParagraphAttributeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSTextParagraphAttributeManager.m; sourceTree = "<group>"; };
 		BF65815C1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleResponseTableViewCell.h; sourceTree = "<group>"; };
 		BF65815D1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleResponseTableViewCell.m; sourceTree = "<group>"; };
+		BF8B70F11F2DC10700A9EE64 /* TKSArticleUserResponsesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleUserResponsesTableViewCell.h; sourceTree = "<group>"; };
+		BF8B70F21F2DC10700A9EE64 /* TKSArticleUserResponsesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleUserResponsesTableViewCell.m; sourceTree = "<group>"; };
+		BF8B70F41F2DC65700A9EE64 /* UIImage+TKSTableViewBoundaryShadow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TKSTableViewBoundaryShadow.h"; sourceTree = "<group>"; };
+		BF8B70F51F2DC65700A9EE64 /* UIImage+TKSTableViewBoundaryShadow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TKSTableViewBoundaryShadow.m"; sourceTree = "<group>"; };
+		BF8B70F71F2DDDD400A9EE64 /* TKSArticleResponseQuoteFooterSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleResponseQuoteFooterSectionView.h; sourceTree = "<group>"; };
+		BF8B70F81F2DDDD400A9EE64 /* TKSArticleResponseQuoteFooterSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleResponseQuoteFooterSectionView.m; sourceTree = "<group>"; };
+		BF9052F51F3466EF00D5C3FA /* UIColor+TKSColorScheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TKSColorScheme.h"; sourceTree = "<group>"; };
+		BF9052F61F3466EF00D5C3FA /* UIColor+TKSColorScheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TKSColorScheme.m"; sourceTree = "<group>"; };
 		BF9CDC111EC5BB8A00FF400D /* TKSArticleDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleDetailViewController.h; sourceTree = "<group>"; };
 		BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleDetailViewController.m; sourceTree = "<group>"; };
 		BF9D7E8C1EC079AD00D99E14 /* TKSBaseArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseArrayDataSource.h; sourceTree = "<group>"; };
 		BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseArrayDataSource.m; sourceTree = "<group>"; };
 		BFA01E291EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleResponseListAndDetailViewController.h; sourceTree = "<group>"; };
 		BFA01E2A1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleResponseListAndDetailViewController.m; sourceTree = "<group>"; };
+		BFA747D51F25E24600003367 /* TKSArticleResponseQuoteTextSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleResponseQuoteTextSectionView.h; sourceTree = "<group>"; };
+		BFA747D61F25E24600003367 /* TKSArticleResponseQuoteTextSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleResponseQuoteTextSectionView.m; sourceTree = "<group>"; };
 		BFAD921F1EAF4EBB0045AFDA /* TKSTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSTextStorage.h; sourceTree = "<group>"; };
 		BFAD92201EAF4EBB0045AFDA /* TKSTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSTextStorage.m; sourceTree = "<group>"; };
 		BFB832A11EC1AF6600BE40A6 /* TKSArticleListTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleListTableViewCell.h; sourceTree = "<group>"; };
@@ -117,7 +141,18 @@
 		BFBD84691EA9B8D700870792 /* TKSNetworkingRequestPathManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingRequestPathManager.m; sourceTree = "<group>"; };
 		BFBD846C1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TKSNetworkingRequestPathManager+PathUniformTool.h"; sourceTree = "<group>"; };
 		BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TKSNetworkingRequestPathManager+PathUniformTool.m"; sourceTree = "<group>"; };
+		BFC50A3C1F1E071F0027D74C /* TKSSingleRequestsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSSingleRequestsManager.h; sourceTree = "<group>"; };
+		BFC50A3D1F1E071F0027D74C /* TKSSingleRequestsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSSingleRequestsManager.m; sourceTree = "<group>"; };
+		BFC50A3F1F1E101A0027D74C /* TKSBasePaginateRequestNetworkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBasePaginateRequestNetworkViewController.h; sourceTree = "<group>"; };
+		BFC50A401F1E101A0027D74C /* TKSBasePaginateRequestNetworkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBasePaginateRequestNetworkViewController.m; sourceTree = "<group>"; };
+		BFC50A421F1E107E0027D74C /* TKSBaseSingleRequestNetworkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseSingleRequestNetworkViewController.h; sourceTree = "<group>"; };
+		BFC50A431F1E107E0027D74C /* TKSBaseSingleRequestNetworkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseSingleRequestNetworkViewController.m; sourceTree = "<group>"; };
 		BFD662F61EEA90DC009AE10C /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
+		BFD686CF1F288900007EB78F /* TKSBaseSectionListDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSBaseSectionListDataSource.h; sourceTree = "<group>"; };
+		BFD686D01F288900007EB78F /* TKSBaseSectionListDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSBaseSectionListDataSource.m; sourceTree = "<group>"; };
+		BFD686D31F288BA5007EB78F /* TKSSectionDataProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSSectionDataProtocol.h; sourceTree = "<group>"; };
+		BFD686D41F289725007EB78F /* TKSArticleResponseListDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSArticleResponseListDataObject.h; sourceTree = "<group>"; };
+		BFD686D51F289725007EB78F /* TKSArticleResponseListDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSArticleResponseListDataObject.m; sourceTree = "<group>"; };
 		BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = htmlSampleText.html; sourceTree = "<group>"; };
 		BFFDF3F51EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSNetworkingAPIRequestManager.h; sourceTree = "<group>"; };
 		BFFDF3F61EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingAPIRequestManager.m; sourceTree = "<group>"; };
@@ -139,6 +174,9 @@
 		BFFDF4101EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSNetworkingAutoCancelRequests.m; sourceTree = "<group>"; };
 		BFFDF4121EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+TKSNetworkingAutoCancelRequests.h"; sourceTree = "<group>"; };
 		BFFDF4131EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+TKSNetworkingAutoCancelRequests.m"; sourceTree = "<group>"; };
+		BFFF76C81F1C93D1003395B3 /* PaginateDataSourceProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaginateDataSourceProtocol.h; sourceTree = "<group>"; };
+		BFFF76C91F1C97D7003395B3 /* TKSPaginateRequestsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TKSPaginateRequestsManager.h; sourceTree = "<group>"; };
+		BFFF76CA1F1C97D7003395B3 /* TKSPaginateRequestsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TKSPaginateRequestsManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +239,9 @@
 				BF3E51FB1EA867640009B4CB /* AppDelegate.m */,
 				BF9D7E8C1EC079AD00D99E14 /* TKSBaseArrayDataSource.h */,
 				BF9D7E8D1EC079AD00D99E14 /* TKSBaseArrayDataSource.m */,
+				BFD686D31F288BA5007EB78F /* TKSSectionDataProtocol.h */,
+				BFD686CF1F288900007EB78F /* TKSBaseSectionListDataSource.h */,
+				BFD686D01F288900007EB78F /* TKSBaseSectionListDataSource.m */,
 				BFB832A91EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.h */,
 				BFB832AA1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m */,
 				BFB832A61EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.h */,
@@ -261,11 +302,23 @@
 			children = (
 				BF9CDC111EC5BB8A00FF400D /* TKSArticleDetailViewController.h */,
 				BF9CDC121EC5BB8A00FF400D /* TKSArticleDetailViewController.m */,
+				BFD686D41F289725007EB78F /* TKSArticleResponseListDataObject.h */,
+				BFD686D51F289725007EB78F /* TKSArticleResponseListDataObject.m */,
 				BFA01E291EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.h */,
 				BFA01E2A1EE55F6A005E1BF6 /* TKSArticleResponseListAndDetailViewController.m */,
+				BFC50A3C1F1E071F0027D74C /* TKSSingleRequestsManager.h */,
+				BFC50A3D1F1E071F0027D74C /* TKSSingleRequestsManager.m */,
 				BF65815C1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.h */,
 				BF65815D1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m */,
+				BF8B70F11F2DC10700A9EE64 /* TKSArticleUserResponsesTableViewCell.h */,
+				BF8B70F21F2DC10700A9EE64 /* TKSArticleUserResponsesTableViewCell.m */,
+				BFA747D51F25E24600003367 /* TKSArticleResponseQuoteTextSectionView.h */,
+				BFA747D61F25E24600003367 /* TKSArticleResponseQuoteTextSectionView.m */,
+				BF8B70F71F2DDDD400A9EE64 /* TKSArticleResponseQuoteFooterSectionView.h */,
+				BF8B70F81F2DDDD400A9EE64 /* TKSArticleResponseQuoteFooterSectionView.m */,
 				BFD858B81ED6DDFA00F18A23 /* htmlSampleText.html */,
+				BF08EF921F46A0D60075104A /* TKSArticleDetailTitlePreviewView.h */,
+				BF08EF931F46A0D60075104A /* TKSArticleDetailTitlePreviewView.m */,
 			);
 			name = ArticleDetailGroup;
 			sourceTree = "<group>";
@@ -296,8 +349,12 @@
 				BFBD846D1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m */,
 				BF5D4A0F1EC306C70093665F /* UIFont+TKSFontDefine.h */,
 				BF5D4A101EC306C70093665F /* UIFont+TKSFontDefine.m */,
+				BF9052F51F3466EF00D5C3FA /* UIColor+TKSColorScheme.h */,
+				BF9052F61F3466EF00D5C3FA /* UIColor+TKSColorScheme.m */,
 				BFFDF4121EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.h */,
 				BFFDF4131EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m */,
+				BF8B70F41F2DC65700A9EE64 /* UIImage+TKSTableViewBoundaryShadow.h */,
+				BF8B70F51F2DC65700A9EE64 /* UIImage+TKSTableViewBoundaryShadow.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -330,6 +387,13 @@
 				BFFDF40A1EB8AFE700B1A92F /* TKSBaseRequestEngine.m */,
 				BFFDF40C1EB8C41400B1A92F /* TKSBaseNetworkViewController.h */,
 				BFFDF40D1EB8C41400B1A92F /* TKSBaseNetworkViewController.m */,
+				BFC50A421F1E107E0027D74C /* TKSBaseSingleRequestNetworkViewController.h */,
+				BFC50A431F1E107E0027D74C /* TKSBaseSingleRequestNetworkViewController.m */,
+				BFC50A3F1F1E101A0027D74C /* TKSBasePaginateRequestNetworkViewController.h */,
+				BFC50A401F1E101A0027D74C /* TKSBasePaginateRequestNetworkViewController.m */,
+				BFFF76C81F1C93D1003395B3 /* PaginateDataSourceProtocol.h */,
+				BFFF76C91F1C97D7003395B3 /* TKSPaginateRequestsManager.h */,
+				BFFF76CA1F1C97D7003395B3 /* TKSPaginateRequestsManager.m */,
 				BFFDF40F1EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.h */,
 				BFFDF4101EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m */,
 			);
@@ -482,27 +546,39 @@
 				BFAD92211EAF4EBB0045AFDA /* TKSTextStorage.m in Sources */,
 				BF3E51FF1EA867640009B4CB /* TKSArticleListViewController.m in Sources */,
 				BFFDF4011EB88C2E00B1A92F /* TKSAPIRequestGenerator.m in Sources */,
+				BFC50A441F1E107E0027D74C /* TKSBaseSingleRequestNetworkViewController.m in Sources */,
 				BFFDF4111EB8C47600B1A92F /* TKSNetworkingAutoCancelRequests.m in Sources */,
 				BFFDF4071EB88E6400B1A92F /* TKSAppContextGenerator.m in Sources */,
 				BFB832A81EC209F300BE40A6 /* TKSBaseArrayWithLoadMoreItemDataSource.m in Sources */,
 				BFFDF40B1EB8AFE700B1A92F /* TKSBaseRequestEngine.m in Sources */,
+				BF9052F71F3466EF00D5C3FA /* UIColor+TKSColorScheme.m in Sources */,
 				BF9CDC131EC5BB8A00FF400D /* TKSArticleDetailViewController.m in Sources */,
 				BFFDF4041EB88DEF00B1A92F /* TKSCommonParamsGenerator.m in Sources */,
+				BFD686D61F289725007EB78F /* TKSArticleResponseListDataObject.m in Sources */,
 				BFBD846A1EA9B8D700870792 /* TKSNetworkingRequestPathManager.m in Sources */,
 				BF3E51FC1EA867640009B4CB /* AppDelegate.m in Sources */,
 				BF3E51F91EA867640009B4CB /* main.m in Sources */,
+				BFFF76CB1F1C97D7003395B3 /* TKSPaginateRequestsManager.m in Sources */,
 				BFBD846E1EAE4ABC00870792 /* TKSNetworkingRequestPathManager+PathUniformTool.m in Sources */,
 				BF65815E1EF3AD9200C8192B /* TKSArticleResponseTableViewCell.m in Sources */,
+				BF8B70F61F2DC65700A9EE64 /* UIImage+TKSTableViewBoundaryShadow.m in Sources */,
 				BF5D4A111EC306C70093665F /* UIFont+TKSFontDefine.m in Sources */,
 				BFB832AB1EC20B1F00BE40A6 /* TKSBaseLoadMoreTableViewCell.m in Sources */,
 				BFFDF3FE1EB7843600B1A92F /* TKSAPIResponseHandler.m in Sources */,
 				BF5D4A141EC33C910093665F /* TKSTextParagraphAttributeManager.m in Sources */,
+				BF08EF941F46A0D60075104A /* TKSArticleDetailTitlePreviewView.m in Sources */,
+				BFA747D71F25E24600003367 /* TKSArticleResponseQuoteTextSectionView.m in Sources */,
 				BFFDF3FB1EB76FC400B1A92F /* TKSBaseRequestModel.m in Sources */,
+				BF8B70F91F2DDDD400A9EE64 /* TKSArticleResponseQuoteFooterSectionView.m in Sources */,
 				BF9D7E8E1EC079AD00D99E14 /* TKSBaseArrayDataSource.m in Sources */,
 				BFFDF4141EB8CFB700B1A92F /* NSObject+TKSNetworkingAutoCancelRequests.m in Sources */,
 				BFB832A31EC1AF6600BE40A6 /* TKSArticleListTableViewCell.m in Sources */,
+				BF8B70F31F2DC10700A9EE64 /* TKSArticleUserResponsesTableViewCell.m in Sources */,
+				BFD686D11F288900007EB78F /* TKSBaseSectionListDataSource.m in Sources */,
+				BFC50A411F1E101A0027D74C /* TKSBasePaginateRequestNetworkViewController.m in Sources */,
 				BFFDF40E1EB8C41400B1A92F /* TKSBaseNetworkViewController.m in Sources */,
 				BFFDF3F71EB34F0900B1A92F /* TKSNetworkingAPIRequestManager.m in Sources */,
+				BFC50A3E1F1E071F0027D74C /* TKSSingleRequestsManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
